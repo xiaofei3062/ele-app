@@ -7,6 +7,7 @@ const Login = () => import("@/views/Login");
 const Home = () => import("@/views/Home");
 const Mine = () => import("@/views/Mine");
 const Order = () => import("@/views/Order");
+const Address = () => import("@/views/Address");
 
 Vue.use(VueRouter);
 
@@ -18,7 +19,8 @@ const routes = [
       { path: "", redirect: "home" },
       { path: "/home", name: "home", component: Home },
       { path: "/mine", name: "mine", component: Mine },
-      { path: "/order", name: "order", component: Order }
+      { path: "/order", name: "order", component: Order },
+      { path: "/address", name: "address", component: Address }
     ]
   },
   { path: "/login", name: "login", component: Login }

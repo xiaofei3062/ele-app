@@ -1,6 +1,8 @@
 <template>
   <div class="index">
-    <router-view />
+    <keep-alive>
+      <router-view />
+    </keep-alive>
     <tar-bar />
   </div>
 </template>
