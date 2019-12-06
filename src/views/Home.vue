@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="header">
-      <div @click="$router.push({name: 'address',params: {city: city}})" class="address_map">
+      <div @click="goAddress" class="address_map">
         <i class="fa fa-map-marker" />
         <span>{{address}}</span>
         <i class="fa fa-sort-desc" />
@@ -26,6 +26,11 @@
           this.$store.getters.location.addressComponent.city ||
           this.$store.getters.location.addressComponent.province
         );
+      }
+    },
+    methods: {
+      goAddress() {
+        this.$router.push({ path: "/address", query: { city: this.city } });
       }
     }
   };

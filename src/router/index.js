@@ -8,6 +8,7 @@ const Home = () => import("@/views/Home");
 const Mine = () => import("@/views/Mine");
 const Order = () => import("@/views/Order");
 const Address = () => import("@/views/Address");
+const City = () => import("@/views/City");
 
 Vue.use(VueRouter);
 
@@ -20,7 +21,8 @@ const routes = [
       { path: "/home", name: "home", component: Home },
       { path: "/mine", name: "mine", component: Mine },
       { path: "/order", name: "order", component: Order },
-      { path: "/address", name: "address", component: Address }
+      { path: "/address", name: "address", component: Address },
+      { path: "/city", name: "city", component: City }
     ]
   },
   { path: "/login", name: "login", component: Login }

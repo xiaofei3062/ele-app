@@ -3,7 +3,8 @@
     <my-header :is-left="true" title="请选择收货地址" />
     <div class="city_search">
       <div class="search">
-        <span class="city">{{city}}<i class="fa fa-angle-down" /></span>
+        <span @click="$router.push({path:'/city',query:{city:city}})"
+              class="city">{{city}}<i class="fa fa-angle-down" /></span>
         <i class="fa fa-search" />
         <input placeholder="小区/写字楼/学校等" type="text" v-model="searchValue">
       </div>
@@ -29,7 +30,6 @@
     components: { Location, MyHeader },
     data() {
       return {
-        city: "合肥",//当前城市
         searchValue: "",
         areaList: []
       };
@@ -37,19 +37,15 @@
     computed: {
       address() {
         return this.$store.getters.location.formattedAddress;
+      },
+      city() {
+        return this.$route.query.city || "合肥";
       }
     },
     watch: {
       searchValue() {
         this.searchPlace();
       }
-    },
-    // 进入路由之前给城市赋值,拿到to.params.city
-    beforeRouteEnter(to, from, next) {
-      const city = to.params.city || "合肥";
-      next(vm => {
-        vm.city = city;
-      });
     },
     methods: {
       // 搜索城市
