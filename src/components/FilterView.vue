@@ -27,7 +27,7 @@
       </ul>
     </div>
     <!-- 筛选 -->
-    <div class="filter-extend" v-if="isScreen">
+    <div class="filter-extend2" v-if="isScreen">
       <div class="filter-sort">
         <div :key="index" class="morefilter" v-for="(screen,index) in filterData.screenBy">
           <p class="title">{{screen.title}}</p>
@@ -223,7 +223,7 @@
     background-color: rgba(0, 0, 0, 0.5);
   }
 
-  .filter-extend {
+  .filter-extend, .filter-extend2 {
     position: absolute;
     z-index: 4;
     top: 24.533333vw;
@@ -234,11 +234,14 @@
     background-color: #ffffff;
   }
 
-  .filter-extend li {
+  .filter-extend li, .filter-extend2 li {
     line-height: 10.666667vw;
     position: relative;
     overflow: hidden;
-    padding-left: 5.333333vw;
+  }
+
+  .filter-extend li {
+    padding-left: 12px;
   }
 
   .fa-check {
@@ -283,6 +286,7 @@
     width: 30%;
     height: 9.333333vw;
     margin: 0.8vw 1%;
+    text-align: center;
     background: #fafafa;
   }
 
