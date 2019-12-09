@@ -8,7 +8,7 @@
         <i class="fa fa-search" />
         <input placeholder="小区/写字楼/学校等" type="text" v-model="searchValue">
       </div>
-      <location :address="address" />
+      <location :address="address" @click="selectAddress" />
     </div>
     <div class="area">
       <ul :key="index" class="area_list" v-for="(item,index) in areaList">

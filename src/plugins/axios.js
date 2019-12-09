@@ -2,6 +2,7 @@
 
 import Vue from "vue";
 import axios from "axios";
+import { Toast } from "vant";
 
 let config = {
   // baseURL: process.env.baseURL || process.env.apiUrl || ""
@@ -12,6 +13,10 @@ const _axios = axios.create(config);
 
 _axios.interceptors.request.use(
   function (config) {
+    Toast.loading({
+      forbidClick: true,
+      message: "加载中..."
+    });
     return config;
   },
   function (error) {
@@ -22,9 +27,11 @@ _axios.interceptors.request.use(
 // Add a response interceptor
 _axios.interceptors.response.use(
   function (response) {
+    Toast.clear();
     return response.data;
   },
   function (error) {
+    Toast.clear();
     return Promise.reject(error);
   }
 );

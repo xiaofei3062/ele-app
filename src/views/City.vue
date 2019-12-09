@@ -5,13 +5,20 @@
         <i class="fa fa-search" />
         <input placeholder="请输入城市名" type="text" v-model="cityValue">
       </div>
-      <button @click="$router.push({path:'/address',query:{city:$route.query.city}})">取消</button>
+      <button @click="handleBtnClick">{{btnMsg}}</button>
     </div>
-    <div>
+    <div v-show="searchList.length===0">
       <div class="location">
-        <location :address="$route.query.city" />
+        <location
+          :address="$route.query.city"
+          @click="$router.push({path:'/address',query:{city:$route.query.city}})" />
       </div>
       <alpha-bet :cityInfo="cityInfo" :keys="keys" @selectCity="selectCity" ref="allcity" />
+    </div>
+    <div class="search_list" v-show="searchList.length!==0">
+      <ul>
+        <li :key="index" @click="selectCity(item)" v-for="(item,index) in searchList">{{item.name}}</li>
+      </ul>
     </div>
   </div>
 </template>
@@ -31,6 +38,15 @@
         allCities: [],
         searchList: []
       };
+    },
+    computed: {
+      // 动态赋值按钮文字
+      btnMsg() {
+        if (this.searchList.length === 0) {
+          return "取消";
+        }
+        return "清空";
+      }
     },
     watch: {
       cityValue(val) {
@@ -107,6 +123,16 @@
           this.searchList = this.allCities.filter(item => {
             return item.name.indexOf(val) !== -1;
           });
+        }
+      },
+      // 取消清空按钮
+      handleBtnClick() {
+        if (this.btnMsg === "取消") {
+          this.$router.push({ path: "/address", query: { city: this.$route.query.city } });
+        } else {
+          // 清空数据并且清空输入框内容
+          this.searchList = [];
+          this.cityValue = "";
         }
       }
     },
