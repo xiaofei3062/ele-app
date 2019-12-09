@@ -72,10 +72,7 @@
       selectKey(index) {
         const citylist = this.$refs.area_scroll.getElementsByClassName("citylist");
         // 根据下标,滚动到相对应的元素上
-        let el = citylist[index];
-
-        // 滚动到对应的位置上
-        this.scroll.scrollToElement(el, 250);
+        this.scroll.scrollToElement(citylist[index], 250);
       }
     }
   };
