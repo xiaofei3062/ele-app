@@ -24,6 +24,10 @@
     <div class="shoplist-title">推荐商家</div>
     <!-- 导航 -->
     <filter-view :filter-data="filterData" @searchFixed="searchFixed" @update="update" />
+    <!-- 商家信息 -->
+    <div class="shoplist">
+      <index-shop :key="index" :restaurant="item.restaurant" v-for="(item,index) in restaurants" />
+    </div>
 
   </div>
 </template>
@@ -32,16 +36,20 @@
   import MySwiper from "@/components/MySwiper";
   import Entries from "./children/Entries";
   import FilterView from "./children/FilterView";
+  import IndexShop from "./children/IndexShop";
 
   export default {
     name: "Home",
-    components: { FilterView, Entries, MySwiper },
+    components: { IndexShop, FilterView, Entries, MySwiper },
     data() {
       return {
         swiperList: [],
         entries: [],
         filterData: {},
-        showFilter: false
+        showFilter: false,
+        page: 1,
+        size: 10,
+        restaurants: [] //存放商家数据
       };
     },
     computed: {
@@ -60,17 +68,25 @@
         this.$router.push({ path: "/address", query: { city: this.city } });
       },
       getData() {
+        // 商品列表数据
         axios.get("/api/profile/shopping").then(res => {
-          // console.log(res);
           this.swiperList = res.swipeImgs;
           this.entries = res.entries;
         }).catch(err => {
           console.log(err);
         });
 
+        // 过滤筛选数据
         axios.get("/api/profile/filter").then(res => {
-          console.log(res);
           this.filterData = res;
+        }).catch(err => {
+          console.log(err);
+        });
+
+        // 获取商家信息
+        axios.post(`/api/profile/restaurants/${this.page}/${this.size}`).then(res => {
+          console.log(res);
+          this.restaurants = res;
         }).catch(err => {
           console.log(err);
         });
