@@ -30,8 +30,8 @@
 
 <script>
   import MySwiper from "@/components/MySwiper";
-  import Entries from "@/components/Entries";
-  import FilterView from "../components/FilterView";
+  import Entries from "./children/Entries";
+  import FilterView from "./children/FilterView";
 
   export default {
     name: "Home",

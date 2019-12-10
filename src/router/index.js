@@ -1,14 +1,16 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
-// 路由懒加载
+// 一级路由
 const Index = () => import("@/views/Index");
-const Login = () => import("@/views/Login");
-const Home = () => import("@/views/Home");
-const Mine = () => import("@/views/Mine");
-const Order = () => import("@/views/Order");
-const Address = () => import("@/views/Address");
-const City = () => import("@/views/City");
+const Login = () => import("@/views/login/Login");
+const Home = () => import("@/views/home/Home");
+const Mine = () => import("@/views/mine/Mine");
+const Order = () => import("@/views/order/Order");
+
+// 二级路由
+const Address = () => import("@/views/home/children/Address");
+const City = () => import("@/views/home/children/City");
 
 Vue.use(VueRouter);
 

@@ -24,8 +24,8 @@
 </template>
 
 <script>
-  import Location from "@/components/Location";
-  import AlphaBet from "@/components/AlphaBet";
+  import Location from "./Location";
+  import AlphaBet from "./AlphaBet";
 
   export default {
     name: "City",
@@ -136,7 +136,7 @@
         }
       }
     },
-    mounted() {
+    activated() {
       this.getCityInfo();
     }
   };

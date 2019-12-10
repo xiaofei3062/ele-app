@@ -5,12 +5,12 @@ import axios from "axios";
 import { Toast } from "vant";
 
 let config = {
-  // baseURL: process.env.baseURL || process.env.apiUrl || ""
-  timeout: 10 * 1000
+  // baseURL:""
 };
 
 const _axios = axios.create(config);
 
+// 请求拦截
 _axios.interceptors.request.use(
   function (config) {
     Toast.loading({
@@ -24,7 +24,7 @@ _axios.interceptors.request.use(
   }
 );
 
-// Add a response interceptor
+// 响应拦截
 _axios.interceptors.response.use(
   function (response) {
     Toast.clear();
@@ -36,23 +36,5 @@ _axios.interceptors.response.use(
   }
 );
 
-Plugin.install = function (Vue, options) {
-  Vue.axios = _axios;
-  window.axios = _axios;
-  Object.defineProperties(Vue.prototype, {
-    axios: {
-      get() {
-        return _axios;
-      }
-    },
-    $axios: {
-      get() {
-        return _axios;
-      }
-    }
-  });
-};
-
-Vue.use(Plugin);
-
-export default Plugin;
+Vue.axios = _axios;
+window.axios = _axios;

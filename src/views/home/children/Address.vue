@@ -23,7 +23,7 @@
 
 <script>
   import MyHeader from "@/components/MyHeader";
-  import Location from "@/components/Location";
+  import Location from "./Location";
 
   export default {
     name: "Address",

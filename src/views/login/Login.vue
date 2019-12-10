@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <div class="logo">
-      <img alt="" src="../assets/logo.jpg">
+      <img alt="" src="@/assets/logo.jpg">
     </div>
     <!-- 手机号 -->
     <input-group :btn-title="btnTitle"
@@ -78,6 +78,7 @@
           phone: this.phone,
           code: this.code
         }).then(res => {
+          // 540666默认验证码
           console.log(res);
           if (res.msg === "验证成功") {
             localStorage.setItem("ele_login", "登录成功");
