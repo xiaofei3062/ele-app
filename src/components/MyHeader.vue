@@ -1,12 +1,12 @@
 <template>
-  <div class="header">
+  <div class="my-header">
     <!-- 左侧返回 -->
-    <div class="header-button is-left" v-show="isLeft">
+    <div class="header-button" v-show="isLeft">
       <i class="fa fa-chevron-left" />
       <button @click="$router.go(-1)">返回</button>
     </div>
     <!-- 中间标题 -->
-    <h1 class="header-title">{{title}}</h1>
+    <h1>{{title}}</h1>
   </div>
 </template>
 
@@ -24,22 +24,27 @@
 </script>
 
 <style scoped>
-  .header {
+  .my-header {
     font-size: 16px;
     line-height: 1;
     position: fixed;
     z-index: 99;
     top: 0;
+    right: 0;
+    left: 0;
     display: flex;
     align-items: center;
-    box-sizing: border-box;
+    justify-content: center;
     width: 100%;
     height: 45px;
     padding: 0 10px;
-    text-align: center;
-    white-space: nowrap;
     color: #ffffff;
     background-color: #009eef;
+  }
+
+  .header-button {
+    position: absolute;
+    left: 10px;
   }
 
   .header-button button {
@@ -52,13 +57,5 @@
     outline: none;
     background-color: transparent;
     box-shadow: none;
-  }
-
-  .header-title {
-    flex: 1;
-  }
-
-  .is-left {
-    text-align: left;
   }
 </style>

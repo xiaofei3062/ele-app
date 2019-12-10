@@ -1,6 +1,8 @@
 <template>
   <div class="ele-container">
-    <router-view />
+    <keep-alive>
+      <router-view />
+    </keep-alive>
   </div>
 </template>
 
@@ -38,6 +40,7 @@
           }
 
           function onError(err) {
+            // console.log(err);
             // 模糊定位
             that.getLngLatLocation();
           }

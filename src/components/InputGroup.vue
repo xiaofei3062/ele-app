@@ -9,8 +9,7 @@
         :placeholder="placeholder"
         :type="type"
         :value="value"
-        @input="$emit('input',$event.target.value)"
-      >
+        @input="$emit('input',$event.target.value)">
       <!-- 输入框后面的按钮 -->
       <button :disabled="disabled" @click="$emit('btnClick')" v-if="btnTitle">{{btnTitle}}</button>
     </div>

@@ -7,7 +7,7 @@
         <i class="fa fa-sort-desc" />
       </div>
     </div>
-    <div :class="{'fixedview':showFilter}" class="search_wrap">
+    <div :class="{'fixedview':showFilter}" @click="$router.push('/search')" class="search_wrap">
       <div class="shop_search">
         <i class="fa fa-search" />
         搜索商家 商家名称
@@ -25,9 +25,17 @@
     <!-- 导航 -->
     <filter-view :filter-data="filterData" @searchFixed="searchFixed" @update="update" />
     <!-- 商家信息 -->
-    <div class="shoplist">
-      <index-shop :key="index" :restaurant="item.restaurant" v-for="(item,index) in restaurants" />
-    </div>
+    <mt-loadmore
+      :auto-fill="false"
+      :bottom-all-loaded="allLoaded"
+      :bottom-method="loadMore"
+      :bottomPullText="bottomPullText"
+      :top-method="loadData"
+      ref="loadmore">
+      <div class="shoplist">
+        <IndexShop :key="index" :restaurant="item.restaurant" v-for="(item,index) in restaurants" />
+      </div>
+    </mt-loadmore>
 
   </div>
 </template>
@@ -49,7 +57,10 @@
         showFilter: false,
         page: 1,
         size: 10,
-        restaurants: [] //存放商家数据
+        restaurants: [], //存放商家数据
+        allLoaded: false,
+        bottomPullText: "上拉加载更多",
+        sortData: {} // 排序内容
       };
     },
     computed: {
@@ -84,19 +95,54 @@
         });
 
         // 获取商家信息
-        axios.post(`/api/profile/restaurants/${this.page}/${this.size}`).then(res => {
-          console.log(res);
-          this.restaurants = res;
-        }).catch(err => {
-          console.log(err);
-        });
+        this.loadData();
 
       },
       searchFixed(bol) {
         this.showFilter = bol;
       },
+      // 排序更新内容
       update(condition) {
-        console.log(condition);
+        this.sortData = condition;
+        this.loadData();
+      },
+      // 获取商家信息,下拉刷新
+      loadData() {
+        this.page = 1;
+        this.allLoaded = false;
+        this.bottomPullText = "上拉加载更多";
+        axios.post(`/api/profile/restaurants/${this.page}/${this.size}`, this.sortData).then(res => {
+          this.restaurants = res;
+          // 数据加载完毕隐藏
+          this.$refs.loadmore.onTopLoaded();
+        }).catch(err => {
+          console.log(err);
+        });
+      },
+      // 上拉加载
+      loadMore() {
+        if (!this.allLoaded) {
+          this.page++;
+          axios.post(`/api/profile/restaurants/${this.page}/${this.size}`, this.sortData).then(res => {
+            // 加载完之后重新渲染
+            this.$refs.loadmore.onBottomLoaded();
+            if (res.length > 0) {
+              res.forEach(item => {
+                this.restaurants.push(item);
+              });
+              if (res < this.size) {
+                this.allLoaded = true;
+                this.bottomPullText = "没有更多了";
+              }
+            } else {
+              // 数据为空
+              this.allLoaded = true;
+              this.bottomPullText = "没有更多了";
+            }
+          }).catch(err => {
+            console.log(err);
+          });
+        }
       }
     },
     created() {
@@ -115,30 +161,51 @@
 
   .header,
   .search_wrap {
-    padding: 10px 16px;
     background-color: #009eef;
+  }
+
+  .search_wrap {
+    width: 100%;
+    padding: 10px 16px;
+  }
+
+  .header {
+    line-height: 40px;
+    width: 100%;
+    height: 40px;
+    padding: 0 16px;
   }
 
   .header .address_map {
     font-weight: bold;
+    display: flex;
+    align-items: center;
     color: #ffffff;
   }
 
   .address_map i {
     font-size: 18px;
+    display: inline-block;
     margin: 0 3px;
+  }
+
+  .address_map i:last-child {
+    font-size: 20px;
+    margin-bottom: 6px;
   }
 
   .address_map span {
     display: inline-block;
     overflow: hidden;
     width: 80%;
+    margin-left: 5px;
     white-space: nowrap;
     text-overflow: ellipsis;
   }
 
   .search_wrap .shop_search {
-    padding: 10px 0;
+    line-height: 34px;
+    height: 34px;
     text-align: center;
     color: #aaaaaa;
     border-radius: 4px;
@@ -147,9 +214,12 @@
 
   .search_wrap {
     position: sticky;
-    z-index: 999;
+    z-index: 90;
     top: 0;
+    right: 0;
+    left: 0;
     box-sizing: border-box;
+    width: 100%;
   }
 
   /* 推荐商家 */
@@ -185,6 +255,6 @@
 
   .mint-loadmore {
     overflow: auto;
-    height: calc(100% - 95px);
+    height: calc(100% - 94px);
   }
 </style>

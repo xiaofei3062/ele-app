@@ -176,17 +176,19 @@
     position: sticky;
     z-index: 10;
     top: 54px;
+    right: 0;
+    left: 0;
     width: 100%;
     background: #ffffff;
   }
 
   .filter {
-    line-height: 10.4vw;
+    line-height: 40px;
     position: relative;
     z-index: 101;
     display: flex;
     justify-content: space-around;
-    height: 10.666667vw;
+    height: 40px;
     border-bottom: 1px solid #dddddd;
   }
 

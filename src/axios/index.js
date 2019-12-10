@@ -36,5 +36,6 @@ _axios.interceptors.response.use(
   }
 );
 
+// 全局注册axios
 Vue.axios = _axios;
 window.axios = _axios;

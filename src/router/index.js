@@ -7,6 +7,7 @@ const Login = () => import("@/views/login/Login");
 const Home = () => import("@/views/home/Home");
 const Mine = () => import("@/views/mine/Mine");
 const Order = () => import("@/views/order/Order");
+const Search = () => import("@/views/search/Search");
 
 // 二级路由
 const Address = () => import("@/views/home/children/Address");
@@ -27,7 +28,8 @@ const routes = [
       { path: "/city", name: "city", component: City }
     ]
   },
-  { path: "/login", name: "login", component: Login }
+  { path: "/login", name: "login", component: Login },
+  { path: "/search", name: "search", component: Search }
 ];
 
 const router = new VueRouter({
@@ -41,7 +43,7 @@ router.beforeEach((to, from, next) => {
   if (to.path === "/login") {
     next();
   } else {
-    // 是否在登录状态下
+    // 判断是否在登录状态下
     isLogin ? next() : next("/login");
   }
 });
