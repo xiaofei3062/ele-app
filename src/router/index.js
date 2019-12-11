@@ -4,12 +4,12 @@ import VueRouter from "vue-router";
 // 一级路由
 const Index = () => import("@/views/Index");
 const Login = () => import("@/views/login/Login");
-const Home = () => import("@/views/home/Home");
-const Mine = () => import("@/views/mine/Mine");
-const Order = () => import("@/views/order/Order");
 const Search = () => import("@/views/search/Search");
 
 // 二级路由
+const Home = () => import("@/views/home/Home");
+const Mine = () => import("@/views/mine/Mine");
+const Order = () => import("@/views/order/Order");
 const Address = () => import("@/views/home/children/Address");
 const City = () => import("@/views/home/children/City");
 
@@ -29,7 +29,8 @@ const routes = [
     ]
   },
   { path: "/login", name: "login", component: Login },
-  { path: "/search", name: "search", component: Search }
+  { path: "/search", name: "search", component: Search },
+  { path: "*", redirect: "/" }
 ];
 
 const router = new VueRouter({
@@ -38,6 +39,7 @@ const router = new VueRouter({
   routes
 });
 
+// 路由全局守卫
 router.beforeEach((to, from, next) => {
   const isLogin = !!localStorage.ele_login;
   if (to.path === "/login") {

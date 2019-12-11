@@ -25,23 +25,37 @@
       </div>
     </div>
     <!-- 商家信息 -->
-    <div class="container" v-if="showShop">商家信息</div>
+    <div class="container" v-if="showShop">
+      <!-- 导航 -->
+      <filter-view :filter-data="filterData" @update="update" />
+      <div :infinite-scroll-disabled="loading" class="shoplist" v-infinite-scroll="loadMore">
+        <IndexShop :key="index" :restaurant="item.restaurant" v-for="(item,index) in restaurants" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
   import MyHeader from "@/components/MyHeader";
   import SearchIndex from "./children/SearchIndex";
+  import FilterView from "../home/children/FilterView";
+  import IndexShop from "../home/children/IndexShop";
 
   export default {
     name: "Search",
-    components: { SearchIndex, MyHeader },
+    components: { IndexShop, FilterView, SearchIndex, MyHeader },
     data() {
       return {
         keyWord: "",
         result: {},
         empty: false,
-        showShop: false
+        showShop: false,
+        filterData: {},
+        restaurants: [],
+        page: 0,
+        size: 7,
+        loading: false,
+        sortData: {}
       };
     },
     watch: {
@@ -78,7 +92,47 @@
       // 点击
       shopItemClick() {
         this.showShop = true;
-        this.keyWord = "";
+        this.page = 0;
+        this.restaurants = [];
+        this.getFilterData();
+      },
+      getFilterData() {
+        axios.get("/api/profile/filter").then(res => {
+          this.filterData = res;
+        }).catch(err => {
+          console.log(err);
+        });
+      },
+      // 排序更新内容
+      update(condition) {
+        this.sortData = condition;
+        this.loadData();
+      },
+      // 加载更多
+      loadMore() {
+        this.page++;
+        if (this.loading === true) {
+          return false;
+        } else {
+          axios.post(`/api/profile/restaurants/${this.page}/${this.size}`, this.sortData).then(res => {
+            if (res.length > 0) {
+              this.restaurants.push(...res);
+            } else {
+              this.loading = true;
+            }
+          }).catch(err => {
+            console.log(err);
+          });
+        }
+      },
+      // 获取商家信息,下拉刷新
+      loadData() {
+        this.page = 1;
+        axios.post(`/api/profile/restaurants/${this.page}/${this.size}`, this.sortData).then(res => {
+          this.restaurants = res;
+        }).catch(err => {
+          console.log(err);
+        });
       }
     }
   };
@@ -93,7 +147,7 @@
   }
 
   .search_header {
-    margin-top: 45px;
+    margin-top: 54px;
     padding: 0 10px;
     background: #ffffff;
   }
@@ -141,7 +195,7 @@
   .shop {
     overflow: auto;
     width: 100%;
-    height: calc(100% - 95px);
+    height: calc(100% - 104px);
   }
 
   .empty_wrap {

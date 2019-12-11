@@ -36,7 +36,7 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 45px;
+    height: 54px;
     padding: 0 10px;
     color: #ffffff;
     background-color: #009eef;
