@@ -5,6 +5,7 @@ import VueRouter from "vue-router";
 const Index = () => import("@/views/Index");
 const Login = () => import("@/views/login/Login");
 const Search = () => import("@/views/search/Search");
+const Shop = () => import("@/views/shops/Shop");
 
 // 二级路由
 const Home = () => import("@/views/home/Home");
@@ -30,6 +31,7 @@ const routes = [
   },
   { path: "/login", name: "login", component: Login },
   { path: "/search", name: "search", component: Search },
+  { path: "/shop", name: "shop", component: Shop },
   { path: "*", redirect: "/" }
 ];
 

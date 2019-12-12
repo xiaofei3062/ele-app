@@ -31,7 +31,6 @@ export const mapMixins = {
         }
 
         function onError(err) {
-          // console.log(err);
           // 模糊定位
           that.getLngLatLocation();
         }
