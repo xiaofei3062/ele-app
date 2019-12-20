@@ -1,5 +1,6 @@
 <template>
   <div class="shop" v-if="Object.keys(shopInfo).length!==0">
+
     <!-- 头部 -->
     <div class="header-nav">
       <div class="nav_bg">
@@ -34,16 +35,23 @@
       <p class="rst-promotion">公告: {{shopInfo.rst.promotion_info}}</p>
     </div>
 
+    <!-- 导航 -->
+    <nav-bar />
+    <keep-alive>
+      <router-view />
+    </keep-alive>
+
   </div>
 </template>
 
 <script>
   import InfoModel from "./children/InfoModel";
   import Activity from "./children/Activity";
+  import NavBar from "./children/NavBar";
 
   export default {
     name: "Shop",
-    components: { Activity, InfoModel },
+    components: { NavBar, Activity, InfoModel },
     data() {
       return {
         shopInfo: {},

@@ -12,27 +12,27 @@ const _axios = axios.create(config);
 
 // 请求拦截
 _axios.interceptors.request.use(
-  function (config) {
+  req => {
     Toast.loading({
       forbidClick: true,
       message: "加载中..."
     });
-    return config;
+    return req;
   },
-  function (error) {
-    return Promise.reject(error);
+  err => {
+    return Promise.reject(err);
   }
 );
 
 // 响应拦截
 _axios.interceptors.response.use(
-  function (response) {
+  res => {
     Toast.clear();
-    return response.data;
+    return res.data;
   },
-  function (error) {
+  err => {
     Toast.clear();
-    return Promise.reject(error);
+    return Promise.reject(err);
   }
 );
 

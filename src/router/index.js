@@ -13,6 +13,9 @@ const Mine = () => import("@/views/mine/Mine");
 const Order = () => import("@/views/order/Order");
 const Address = () => import("@/views/home/children/Address");
 const City = () => import("@/views/home/children/City");
+const Goods = () => import("@/views/shops/children/Goods");
+const Comments = () => import("@/views/shops/children/Comments");
+const Seller = () => import("@/views/shops/children/Seller");
 
 Vue.use(VueRouter);
 
@@ -22,22 +25,31 @@ const routes = [
     component: Index,
     children: [
       { path: "", redirect: "home" },
-      { path: "/home", name: "home", component: Home },
-      { path: "/mine", name: "mine", component: Mine },
-      { path: "/order", name: "order", component: Order },
-      { path: "/address", name: "address", component: Address },
-      { path: "/city", name: "city", component: City }
+      { path: "home", name: "home", component: Home },
+      { path: "mine", name: "mine", component: Mine },
+      { path: "order", name: "order", component: Order },
+      { path: "address", name: "address", component: Address },
+      { path: "city", name: "city", component: City }
     ]
   },
   { path: "/login", name: "login", component: Login },
   { path: "/search", name: "search", component: Search },
-  { path: "/shop", name: "shop", component: Shop },
+  {
+    path: "/shop",
+    component: Shop,
+    children: [
+      { path: "", redirect: "goods" },
+      { path: "goods", name: "goods", component: Goods },
+      { path: "comments", name: "comments", component: Comments },
+      { path: "seller", name: "seller", component: Seller }
+    ]
+  },
   { path: "*", redirect: "/" }
 ];
 
 const router = new VueRouter({
-  mode: "history",
-  base: process.env.BASE_URL,
+  mode: "hash",
+  // base: process.env.BASE_URL,
   routes
 });
 
