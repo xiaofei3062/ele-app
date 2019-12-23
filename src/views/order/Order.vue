@@ -1,10 +1,15 @@
 <template>
-  <div class="order">订单</div>
+  <div class="order">
+    订单
+  </div>
 </template>
 
 <script>
   export default {
-    name: "Order"
+    name: "Order",
+    data() {
+      return {};
+    }
   };
 </script>
 

@@ -25,13 +25,12 @@
     <!-- 导航 -->
     <filter-view :filter-data="filterData" @searchFixed="searchFixed" @update="update" />
     <!-- 商家信息 -->
-    <mt-loadmore
-      :auto-fill="false"
-      :bottom-all-loaded="allLoaded"
-      :bottom-method="loadMore"
-      :bottomPullText="bottomPullText"
-      :top-method="loadData"
-      ref="loadmore">
+    <mt-loadmore :auto-fill="false"
+                 :bottom-all-loaded="allLoaded"
+                 :bottom-method="loadMore"
+                 :bottomPullText="bottomPullText"
+                 :top-method="loadData"
+                 ref="loadmore">
       <div class="shoplist">
         <IndexShop :key="index" :restaurant="item.restaurant" v-for="(item,index) in restaurants" />
       </div>

@@ -90,7 +90,6 @@
   }
 
   .nav_back {
-    font-size: 20px;
     position: absolute;
     top: 10px;
     left: 10px;
@@ -101,13 +100,13 @@
   }
 
   .nav_back i {
-    font-size: 20px;
+    font-size: 16px;
     display: inline-block;
     margin-right: 5px;
   }
 
   .nav_back span {
-    font-size: 16px;
+    font-size: 14px;
     display: inline-block;
   }
 

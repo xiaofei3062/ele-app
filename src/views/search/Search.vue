@@ -74,7 +74,6 @@
           return false;
         } else {
           axios(`/api/profile/typeahead/${this.keyWord}`).then(res => {
-            // console.log(res);
             // 数组有数据才赋值
             if (res.restaurants.length > 0 || res.words.length > 0) {
               this.result = res;

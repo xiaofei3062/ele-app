@@ -1,6 +1,5 @@
 "use strict";
 
-import Vue from "vue";
 import axios from "axios";
 import { Toast } from "vant";
 
@@ -37,5 +36,4 @@ _axios.interceptors.response.use(
 );
 
 // 全局注册axios
-Vue.axios = _axios;
 window.axios = _axios;
