@@ -86,11 +86,14 @@
     data() {
       return {
         shopInfo: {},
-        currentIndex: 0,
         // 左侧滚动对象
         menuScroll: {},
         // 右侧滚动对象
-        foodScroll: {}
+        foodScroll: {},
+        // 当前滚动位置
+        scrollY: 0,
+        // 列表高度
+        listHeight: []
       };
     },
     activated() {
@@ -114,12 +117,34 @@
       // 使用better-scroll
       this.$nextTick(() => {
         this.initScroll();
+        this.calcHeight();
       });
+    },
+    computed: {
+      // 根据右侧滚动高度动态赋值index
+      currentIndex: {
+        get() {
+          for (let i = 0; i < this.listHeight.length; i++) {
+            let height = this.listHeight[i];
+            let height2 = this.listHeight[i + 1];
+
+            // 判断是否在两个高度之间
+            if (this.scrollY >= height && this.scrollY < height2) {
+              return i;
+            }
+          }
+          return this.listHeight.length - 1;
+        },
+        set(val) {
+          return val;
+        }
+      }
     },
     methods: {
       initScroll() {
         // 左侧
         this.menuScroll = new BScroll(this.$refs.menuScroll, {
+          probeType: 3,
           click: true
         });
         // 右侧
@@ -127,12 +152,40 @@
           probeType: 3,
           click: true
         });
+
+        // 监听右侧滚动事件
+        this.foodScroll.on("scroll", pos => {
+          // 取滚动高度绝对值
+          this.scrollY = Math.abs(pos.y);
+          // 滚动到指定元素
+          const li = this.$refs.menuScroll.getElementsByTagName("li");
+          if (this.currentIndex >= 6) {
+            this.menuScroll.scrollToElement(li[this.currentIndex], 0);
+          } else if (this.currentIndex < 6 && this.currentIndex >= 4) {
+            this.menuScroll.scrollToElement(li[0], 0);
+          }
+        });
       },
       selectMenu(index) {
         this.currentIndex = index;
         // 滚动到指定元素
         const li = this.$refs.foodScroll.getElementsByClassName("food-list-hook");
         this.foodScroll.scrollToElement(li[index], 300);
+      },
+      // 动态计算右侧滚动高度
+      calcHeight() {
+        const foodList = Array.from(this.$refs.foodScroll.getElementsByClassName("food-list-hook"));
+        let height = 0;
+        this.listHeight.push(height);
+        // 每个区的高度 添加到数组中
+        for (let i = 0; i < foodList.length - 1; i++) {
+          let item = foodList[i];
+          // 累加可视区域高度
+          height += item.clientHeight;
+          this.listHeight.push(height);
+        }
+        console.log(this.listHeight);
+
       }
     }
   };
