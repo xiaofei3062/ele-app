@@ -1,0 +1,263 @@
+<template>
+  <div class="shop-cart">
+    <div :class="{'bottomNav-carticon-empty':isEmpty}" class="bottomNav-cartfooter">
+      <span class="bottomNav-carticon">
+        <i class="fa fa-cart-plus" />
+        <span>0</span>
+      </span>
+      <div class="bottomNav-cartInfo">
+        <p class="bottomNav-carttotal">
+          <span v-if="isEmpty">未选购商品</span>
+          <span v-else>¥{{totalPrice.toFixed(2)}}</span>
+        </p>
+        <p class="bottomNav-cartdelivery">另需配送费{{shopInfo.rst.float_delivery_fee}}元</p>
+      </div>
+      <button class="submit-btn">
+        <span v-if="isEmpty">¥{{shopInfo.rst.float_minimum_order_amount}} 元起送</span>
+        <span v-else>去结算</span>
+      </button>
+    </div>
+  </div>
+</template>
+
+<script>
+  export default {
+    name: "ShopCart",
+    data() {
+      return {
+        totalCount: 0,
+        totalPrice: 0,
+        selectFoods: [],
+        showCartView: false
+      };
+    },
+    props: {
+      shopInfo: {
+        type: Object,
+        default() {
+          return {};
+        }
+      }
+    },
+    computed: {
+      isEmpty() {
+        let empty = true;
+        return empty;
+      }
+    },
+    created() {
+      // console.log(this.shopInfo);
+    }
+  };
+</script>
+
+<style scoped>
+  .shop-cart {
+    width: 100%;
+    height: 50px;
+  }
+
+  .bottomNav-cartfooter {
+    position: fixed;
+    z-index: 100;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    height: 50px;
+    padding-left: 10px;
+    background-color: #3d3d3f;
+  }
+
+  .bottomNav-carticon {
+    line-height: 50px;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    box-sizing: border-box;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    border: 3px solid #444444;
+    border-radius: 50%;
+    background-color: #3190e8;
+    box-shadow: 0 -0.8vw 0.533333vw 0 rgba(0, 0, 0, 0.1);
+  }
+
+  .bottomNav-carticon > i {
+    font-size: 24px;
+    color: #ffffff;
+  }
+
+  .bottomNav-cartInfo {
+    margin-left: 70px;
+  }
+
+  .bottomNav-carttotal {
+    font-size: 14px;
+    line-height: normal;
+    color: #ffffff;
+  }
+
+  .bottomNav-cartdelivery {
+    font-size: 13px;
+    margin-top: 5px;
+    color: #999999;
+  }
+
+  .submit-btn {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 100%;
+    position: absolute;
+    right: 0;
+    display: block;
+    height: 100%;
+    padding: 0 20px;
+    user-select: none;
+    text-align: center;
+    text-decoration: none;
+    color: #ffffff;
+    border: none;
+    outline: none;
+    background-color: #38ca73;
+  }
+
+  .submit-btn:active {
+    background-color: rgba(56, 202, 115, 0.8);
+  }
+
+  .bottomNav-carticon-empty > span {
+    background-image: radial-gradient(circle, #363636 6.266667vw, #444444 0);
+  }
+
+  .bottomNav-carticon-empty > span > i {
+    color: #606065 !important;
+  }
+
+  .bottomNav-carticon-empty .bottomNav-carttotal > span {
+    color: #999999;
+  }
+
+  .bottomNav-carticon-empty .submit-btn {
+    background-color: #535356 !important;
+  }
+
+  .bottomNav-carticon > span {
+    font-size: 13px;
+    line-height: normal;
+    position: absolute;
+    top: -6px;
+    right: 0;
+    display: inline-block;
+    padding: 2px 4px;
+    color: #ffffff;
+    border-radius: 50%;
+    background-image: linear-gradient(-90deg, #ff7416, #ff3c15 98%);
+  }
+
+  .cartview-cartmask {
+    position: fixed;
+    z-index: 200;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+
+  .cartview-cartbody {
+    font-size: 14px;
+    position: fixed;
+    z-index: 201;
+    bottom: 12.8vw;
+    left: 0;
+    width: 100%;
+    opacity: 1;
+    background-color: #ffffff;
+  }
+
+  .cartview-cartheader {
+    display: flex;
+    align-items: center;
+    height: 10.666667vw;
+    padding: 0 4vw;
+    color: #666666;
+    border-bottom: 0.133333vw solid #dddddd;
+    background-color: #eceff1;
+  }
+
+  .cartview-cartheader > span {
+    display: flex;
+    align-items: center;
+    flex: 1;
+  }
+
+  .cartview-cartheader > button {
+    font-size: 14px;
+    line-height: 4vw;
+    display: flex;
+    align-items: center;
+    flex: none;
+    padding-left: 4vw;
+    text-decoration: none;
+    color: #666666;
+    border: none;
+    outline: none;
+    background: none;
+  }
+
+  .entityList-cartbodyScroller {
+    overflow: auto;
+    max-height: 80vw;
+  }
+
+  .entityList-entityrow {
+    display: flex;
+    align-items: center;
+    min-height: 12.666667vw;
+    margin-left: 3.333333vw;
+    padding: 2vw 3.333333vw 2vw 0;
+    border-bottom: 0.133333vw solid #eeeeee;
+  }
+
+  .entityList-entityrow > h4 {
+    line-height: normal;
+    flex: 5.5;
+  }
+
+  .entityList-entityrow > h4 > span {
+    font-style: normal;
+    display: inline-block;
+    overflow: hidden;
+    max-width: 46.666667vw;
+    vertical-align: middle;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .entityList-entitytotal {
+    font-weight: 700;
+    flex: 2.5;
+    text-align: left;
+    white-space: nowrap;
+    color: rgb(255, 83, 57);
+  }
+
+  .entityList-entitytotal::before {
+    font-size: 14px;
+    content: "\A5";
+    color: currentColor;
+  }
+
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity 0.25s ease-out;
+  }
+
+  .fade-enter,
+  .fade-leave-to {
+    opacity: 0;
+  }
+</style>

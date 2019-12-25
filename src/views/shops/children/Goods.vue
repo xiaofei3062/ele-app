@@ -2,7 +2,10 @@
   <div class="goods">
 
     <!-- 商家推荐 -->
-    <div :key="recommendIndex" class="recommend" v-for="(recommend,recommendIndex) in shopInfo.recommend">
+    <div
+      :key="recommendIndex"
+      class="recommend"
+      v-for="(recommend,recommendIndex) in shopInfo.recommend">
       <p class="recommend-name">{{recommend.name}}</p>
       <div class="recommend-wrap">
         <ul>
@@ -73,16 +76,20 @@
 
     </div>
 
+    <!-- 购物车 -->
+    <shop-cart :shop-info="shopInfo" />
+
   </div>
 </template>
 
 <script>
   import CartControl from "./CartControl";
   import BScroll from "better-scroll";
+  import ShopCart from "./ShopCart";
 
   export default {
     name: "Goods",
-    components: { CartControl },
+    components: { ShopCart, CartControl },
     data() {
       return {
         shopInfo: {},
@@ -116,13 +123,8 @@
 
       // 获取元素高度
       this.$nextTick(() => {
-        this.calcHeight();
-      });
-    },
-    activated() {
-      // 使用better-scroll
-      this.$nextTick(() => {
         this.initScroll();
+        this.calcHeight();
       });
     },
     computed: {
@@ -188,7 +190,7 @@
           height += item.offsetHeight;
           this.listHeight.splice(i + 1, 1, height);
         }
-        console.log(this.listHeight);
+        // console.log(this.listHeight);
 
       }
     }
@@ -198,7 +200,8 @@
 <style scoped>
   .goods {
     position: relative;
-    height: calc(100vh - 1.1733rem);
+    height: calc(100vh - 44px);
+    padding-bottom: 60px;
   }
 
   .recommend {
@@ -273,7 +276,7 @@
   .menuview {
     display: flex;
     box-sizing: border-box;
-    height: calc(100vh - 8.02667rem);
+    height: calc(100vh - 350px);
     background-color: #f8f8f8;
   }
 
@@ -284,7 +287,7 @@
   }
 
   .menu-wrapper li {
-    font-size: 14px;
+    font-size: 13px;
     line-height: 1.2;
     padding: 10px;
     color: #666666;
@@ -302,7 +305,7 @@
   .foods-wrapper {
     overflow-y: hidden;
     width: 78%;
-    height: calc(100vh - 8.02667rem);
+    height: calc(100vh - 350px);
     background-color: #ffffff;
   }
 
