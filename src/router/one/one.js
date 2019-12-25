@@ -1,5 +1,6 @@
+// 一级路由
 const Index = () => import("@/views/Index");
-
+// 二级路由
 const Home = () => import("@/views/home/Home");
 const Mine = () => import("@/views/mine/Mine");
 const Order = () => import("@/views/order/Order");

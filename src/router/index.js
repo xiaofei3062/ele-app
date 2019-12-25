@@ -2,10 +2,10 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 
 // 引入模块化路由
-import { IndexRouter } from "./one";
-import { ShopRouter } from "./shop";
-import { LoginRouter } from "./login";
-import { SearchRouter } from "./search";
+import { IndexRouter } from "./one/one";
+import { ShopRouter } from "./shop/shop";
+import { LoginRouter } from "./login/login";
+import { SearchRouter } from "./search/search";
 
 Vue.use(VueRouter);
 

@@ -2,7 +2,7 @@
   <div class="entries">
     <van-swipe :autoplay="0" style="height: 100%;">
       <van-swipe-item :key="i" class="entry_wrap" v-for="(entry,i) in entries">
-        <div :key="index" class="foodentry" v-for="(item,index) in entry">
+        <div :key="index" @click="foodClick(item)" class="foodentry" v-for="(item,index) in entry">
           <div class="img_wrap">
             <img :src="item.image" alt>
           </div>
@@ -22,6 +22,11 @@
         default() {
           return [];
         }
+      }
+    },
+    methods: {
+      foodClick(item) {
+        this.$toast(item.name);
       }
     }
   };
