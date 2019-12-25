@@ -100,8 +100,8 @@
 
   .search {
     line-height: 40px;
-    box-sizing: border-box;
     height: 40px;
+    margin-top: 10px;
     border-radius: 10px;
     background-color: #eeeeee;
   }
@@ -115,8 +115,10 @@
   }
 
   .search input {
+    display: inline-block;
+    height: 38px;
     margin-left: 5px;
-    border: none;
+    border: 0;
     outline: none;
     background-color: #eeeeee;
   }

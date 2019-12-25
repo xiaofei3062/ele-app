@@ -18,6 +18,7 @@
 
 <style scoped>
   .index {
+    width: 100%;
     height: calc(100% - 50px);
   }
 </style>

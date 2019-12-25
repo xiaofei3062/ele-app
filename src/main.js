@@ -7,6 +7,7 @@ import "mint-ui/lib/style.css";
 import { Loadmore, InfiniteScroll } from "mint-ui";
 import Vant from "vant";
 import "vant/lib/index.css";
+import "./assets/css/reset.css";
 
 Vue.component(Loadmore.name, Loadmore);
 
