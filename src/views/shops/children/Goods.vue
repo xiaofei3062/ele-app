@@ -96,7 +96,7 @@
         listHeight: []
       };
     },
-    activated() {
+    mounted() {
       // 获取父组件的数据
       const shopInfo = this.$parent.shopInfo;
 
@@ -114,10 +114,15 @@
 
       this.shopInfo = shopInfo;
 
+      // 获取元素高度
+      this.$nextTick(() => {
+        this.calcHeight();
+      });
+    },
+    activated() {
       // 使用better-scroll
       this.$nextTick(() => {
         this.initScroll();
-        this.calcHeight();
       });
     },
     computed: {
@@ -133,7 +138,7 @@
               return i;
             }
           }
-          return this.listHeight.length - 1;
+          return 0;
         },
         set(val) {
           return val;
@@ -144,7 +149,6 @@
       initScroll() {
         // 左侧
         this.menuScroll = new BScroll(this.$refs.menuScroll, {
-          probeType: 3,
           click: true
         });
         // 右侧
@@ -176,13 +180,13 @@
       calcHeight() {
         const foodList = Array.from(this.$refs.foodScroll.getElementsByClassName("food-list-hook"));
         let height = 0;
-        this.listHeight.push(height);
+        this.listHeight.splice(0, 1, height);
         // 每个区的高度 添加到数组中
-        for (let i = 0; i < foodList.length - 1; i++) {
+        for (let i = 0; i < foodList.length; i++) {
           let item = foodList[i];
           // 累加可视区域高度
-          height += item.clientHeight;
-          this.listHeight.push(height);
+          height += item.offsetHeight;
+          this.listHeight.splice(i + 1, 1, height);
         }
         console.log(this.listHeight);
 

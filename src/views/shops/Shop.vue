@@ -74,7 +74,8 @@
 
 <style scoped>
   .shop {
-    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
     box-sizing: border-box;
     width: 100%;
     height: 100%;
