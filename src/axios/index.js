@@ -4,7 +4,7 @@ import axios from "axios";
 import { Toast } from "vant";
 
 let config = {
-  // baseURL:""
+  // baseURL: "http://127.0.0.1:5000"
 };
 
 const _axios = axios.create(config);
