@@ -3,7 +3,7 @@
     <div :class="{'bottomNav-carticon-empty':isEmpty}" class="bottomNav-cartfooter">
       <span class="bottomNav-carticon">
         <i class="fa fa-cart-plus" />
-        <span>0</span>
+        <span v-if="totalCount">{{totalCount}}</span>
       </span>
       <div class="bottomNav-cartInfo">
         <p class="bottomNav-carttotal">
@@ -31,22 +31,40 @@
         showCartView: false
       };
     },
-    props: {
-      shopInfo: {
-        type: Object,
-        default() {
-          return {};
-        }
-      }
-    },
     computed: {
+      shopInfo: {
+        get() {
+          return this.$store.getters.shopInfo;
+        },
+        set(val) {
+          return val;
+        }
+      },
       isEmpty() {
         let empty = true;
+        let res = 0;
+
+        this.shopInfo.recommend.forEach(recommend => {
+          recommend.items.forEach(item => {
+            if (item.count) {
+              empty = false;
+              res += item.count;
+            }
+          });
+        });
+        this.shopInfo.menu.forEach(menu => {
+          menu.foods.forEach(food => {
+            if (food.count) {
+              empty = false;
+              res += food.count;
+            }
+          });
+        });
+
+        this.totalCount = res;
+
         return empty;
       }
-    },
-    created() {
-      // console.log(this.shopInfo);
     }
   };
 </script>

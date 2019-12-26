@@ -18,6 +18,7 @@
             </div>
             <div class="recommend-food-price">
               <p>¥{{item.activity.fixed_price}}</p>
+              <!-- 加减组件 -->
               <cart-control :food="item" />
             </div>
           </li>
@@ -66,6 +67,7 @@
                 </p>
                 <div class="fooddetails-price">
                   <span class="price">¥{{food.activity.fixed_price}}</span>
+                  <!-- 加减组件 -->
                   <cart-control :food="food" />
                 </div>
               </div>
@@ -77,7 +79,7 @@
     </div>
 
     <!-- 购物车 -->
-    <shop-cart :shop-info="shopInfo" />
+    <shop-cart />
 
   </div>
 </template>
@@ -92,7 +94,6 @@
     components: { ShopCart, CartControl },
     data() {
       return {
-        shopInfo: {},
         // 左侧滚动对象
         menuScroll: {},
         // 右侧滚动对象
@@ -104,23 +105,6 @@
       };
     },
     mounted() {
-      // 获取父组件的数据
-      const shopInfo = this.$parent.shopInfo;
-
-      // 动态添加数量字段
-      shopInfo.recommend.forEach(recommend => {
-        recommend.items.forEach(item => {
-          this.$set(item, "count", 0);
-        });
-      });
-      shopInfo.menu.forEach(menu => {
-        menu.foods.forEach(food => {
-          this.$set(food, "count", 0);
-        });
-      });
-
-      this.shopInfo = shopInfo;
-
       // 获取元素高度
       this.$nextTick(() => {
         this.initScroll();
@@ -128,6 +112,14 @@
       });
     },
     computed: {
+      shopInfo: {
+        get() {
+          return this.$store.getters.shopInfo;
+        },
+        set(val) {
+          return val;
+        }
+      },
       // 根据右侧滚动高度动态赋值index
       currentIndex: {
         get() {
@@ -183,15 +175,13 @@
         const foodList = Array.from(this.$refs.foodScroll.getElementsByClassName("food-list-hook"));
         let height = 0;
         this.listHeight.splice(0, 1, height);
-        // 每个区的高度 添加到数组中
+        // 累加可视区域高度
         for (let i = 0; i < foodList.length; i++) {
           let item = foodList[i];
-          // 累加可视区域高度
           height += item.offsetHeight;
           this.listHeight.splice(i + 1, 1, height);
         }
         // console.log(this.listHeight);
-
       }
     }
   };

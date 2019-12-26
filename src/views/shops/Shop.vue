@@ -54,20 +54,39 @@
     components: { NavBar, Activity, InfoModel },
     data() {
       return {
-        shopInfo: {},
         showInfoModel: false
       };
     },
+    computed: {
+      shopInfo() {
+        return this.$store.getters.shopInfo;
+      }
+    },
     methods: {
-      getShopData() {
+      setShopInfo() {
         axios.get("/api/profile/batch_shop").then(res => {
-          console.log(res);
-          this.shopInfo = res;
+
+          // 动态添加count字段
+          res.recommend.forEach(recommend => {
+            recommend.items.forEach(item => {
+              item.count = 0;
+            });
+          });
+
+          res.menu.forEach(menu => {
+            menu.foods.forEach(food => {
+              food.count = 0;
+            });
+          });
+
+          this.$store.commit("setShopInfo", res);
+        }).catch(err => {
+          console.log(err);
         });
       }
     },
     created() {
-      this.getShopData();
+      this.setShopInfo();
     }
   };
 </script>

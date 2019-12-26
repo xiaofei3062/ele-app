@@ -6,17 +6,20 @@ Vue.use(Vuex);
 // types
 const types = {
   SET_LOCATION: "setLocation",
-  SET_ADDRESS: "setAddress"
+  SET_ADDRESS: "setAddress",
+  SET_SHOP_INFO: "setShopInfo"
 };
 
 export default new Vuex.Store({
   state: {
     location: {},
-    address: "定位中..."
+    address: "定位中...",
+    shopInfo: {}
   },
   getters: {
     location: state => state.location,
-    address: state => state.address
+    address: state => state.address,
+    shopInfo: state => state.shopInfo
   },
   // 同步操作
   mutations: {
@@ -33,6 +36,10 @@ export default new Vuex.Store({
       } else {
         state.address = "定位中...";
       }
+    },
+    // 获取shopInfo
+    [types.SET_SHOP_INFO](state, obj) {
+      state.shopInfo = obj;
     }
   },
   // 异步操作
