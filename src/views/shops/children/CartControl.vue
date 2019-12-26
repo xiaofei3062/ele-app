@@ -33,17 +33,17 @@
     font-size: 14px;
     display: flex;
     align-items: center;
+    color: #009eef;
   }
 
   .cart-control .cart-control-item {
-    font-size: 22px;
-    color: #009eef;
+    font-size: 20px;
+    display: inline-block;
   }
 
   .cart-control .cart-control-price {
     font-size: 16px;
     display: inline-block;
-    margin: 0 7px;
-    color: #009eef;
+    margin: 0 5px;
   }
 </style>

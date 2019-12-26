@@ -40,6 +40,10 @@ footer, header, hgroup, menu, nav, section {
   display: block;
 }
 
+a {
+  text-decoration: none;
+}
+
 body {
   line-height: 1;
 }

@@ -1,11 +1,13 @@
 <template>
   <div class="shop-cart">
+
+    <!-- 购物车底部 -->
     <div :class="{'bottomNav-carticon-empty':isEmpty}" class="bottomNav-cartfooter">
-      <span class="bottomNav-carticon">
+      <span @click="!isEmpty?handleShopView():''" class="bottomNav-carticon">
         <i class="fa fa-cart-plus" />
         <span v-if="totalCount">{{totalCount}}</span>
       </span>
-      <div class="bottomNav-cartInfo">
+      <div @click="!isEmpty?handleShopView():''" class="bottomNav-cartInfo">
         <p class="bottomNav-carttotal">
           <span v-if="isEmpty">未选购商品</span>
           <span v-else>¥{{totalPrice.toFixed(2)}}</span>
@@ -17,12 +19,44 @@
         <span v-else>去结算</span>
       </button>
     </div>
+
+    <!-- 购物车遮罩 -->
+    <transition name="fade">
+      <div @click.self="showCartView = false" class="cartview-cartmask" v-if="showCartView && !isEmpty">
+        <div class="cartview-cartbody">
+          <!-- 上面 -->
+          <div class="cartview-cartheader">
+            <span>已选商品</span>
+            <button @click="clearFoods">
+              <i class="fa fa-trash-o" />
+              <span>清空</span>
+            </button>
+          </div>
+          <!-- 下面 -->
+          <div class="entityList-cartbodyScroller">
+            <ul class="entityList-cartlist">
+              <li :key="index" class="entityList-entityrow" v-for="(food,index) in selectFoods">
+                <h4>
+                  <span>{{food.name}}</span>
+                </h4>
+                <span class="entityList-entitytotal">{{food.activity.fixed_price}}</span>
+                <cart-control :food="food" />
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </transition>
+
   </div>
 </template>
 
 <script>
+  import CartControl from "./CartControl";
+
   export default {
     name: "ShopCart",
+    components: { CartControl },
     data() {
       return {
         totalCount: 0,
@@ -42,28 +76,57 @@
       },
       isEmpty() {
         let empty = true;
-        let res = 0;
+        this.totalCount = 0;
+        this.totalPrice = 0;
+        this.selectFoods = [];
 
+        // 计算推荐商品总数量和总价格
         this.shopInfo.recommend.forEach(recommend => {
           recommend.items.forEach(item => {
             if (item.count) {
               empty = false;
-              res += item.count;
+              this.totalCount += item.count;
+              this.totalPrice += item.activity.fixed_price * item.count;
+              this.selectFoods.push(item);
             }
           });
         });
+
+        // 计算菜单商品总数量和总价格
         this.shopInfo.menu.forEach(menu => {
           menu.foods.forEach(food => {
             if (food.count) {
               empty = false;
-              res += food.count;
+              this.totalCount += food.count;
+              this.totalPrice += food.activity.fixed_price * food.count;
+              this.selectFoods.push(food);
             }
           });
         });
 
-        this.totalCount = res;
-
         return empty;
+      }
+    },
+    methods: {
+      handleShopView() {
+        this.showCartView = !this.showCartView;
+      },
+      clearFoods() {
+        this.showCartView = false;
+
+        // 清空数量 价格 商品数组
+        this.shopInfo.recommend.forEach(recommend => {
+          recommend.items.forEach(item => {
+            item.count = 0;
+          });
+        });
+
+        this.shopInfo.menu.forEach(menu => {
+          menu.foods.forEach(food => {
+            food.count = 0;
+          });
+        });
+
       }
     }
   };
@@ -77,7 +140,7 @@
 
   .bottomNav-cartfooter {
     position: fixed;
-    z-index: 100;
+    z-index: 101;
     right: 0;
     bottom: 0;
     left: 0;
@@ -91,7 +154,7 @@
   .bottomNav-carticon {
     line-height: 50px;
     position: absolute;
-    bottom: 10px;
+    bottom: 6px;
     left: 10px;
     box-sizing: border-box;
     width: 50px;
@@ -121,6 +184,7 @@
   .bottomNav-cartdelivery {
     font-size: 13px;
     margin-top: 5px;
+    margin-bottom: 2px;
     color: #999999;
   }
 
@@ -155,6 +219,7 @@
   }
 
   .bottomNav-carticon-empty .bottomNav-carttotal > span {
+    font-size: 13px;
     color: #999999;
   }
 
@@ -177,19 +242,21 @@
 
   .cartview-cartmask {
     position: fixed;
-    z-index: 200;
+    z-index: 100;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
-    background-color: rgba(0, 0, 0, 0.4);
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
   }
 
   .cartview-cartbody {
     font-size: 14px;
     position: fixed;
-    z-index: 201;
-    bottom: 12.8vw;
+    z-index: 101;
+    bottom: 50px;
     left: 0;
     width: 100%;
     opacity: 1;
@@ -197,12 +264,13 @@
   }
 
   .cartview-cartheader {
+    line-height: 40px;
     display: flex;
     align-items: center;
-    height: 10.666667vw;
-    padding: 0 4vw;
+    height: 40px;
+    padding: 0 10px;
     color: #666666;
-    border-bottom: 0.133333vw solid #dddddd;
+    border-bottom: 1px solid #dddddd;
     background-color: #eceff1;
   }
 
@@ -214,11 +282,9 @@
 
   .cartview-cartheader > button {
     font-size: 14px;
-    line-height: 4vw;
     display: flex;
     align-items: center;
     flex: none;
-    padding-left: 4vw;
     text-decoration: none;
     color: #666666;
     border: none;
@@ -226,18 +292,24 @@
     background: none;
   }
 
+  .cartview-cartheader > button i {
+    font-size: 18px;
+    display: inline-block;
+    margin-right: 4px;
+  }
+
   .entityList-cartbodyScroller {
-    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
     max-height: 80vw;
   }
 
   .entityList-entityrow {
     display: flex;
     align-items: center;
-    min-height: 12.666667vw;
-    margin-left: 3.333333vw;
-    padding: 2vw 3.333333vw 2vw 0;
-    border-bottom: 0.133333vw solid #eeeeee;
+    min-height: 48px;
+    padding: 10px;
+    border-bottom: 1px solid #cccccc;
   }
 
   .entityList-entityrow > h4 {
@@ -249,7 +321,7 @@
     font-style: normal;
     display: inline-block;
     overflow: hidden;
-    max-width: 46.666667vw;
+    max-width: 150px;
     vertical-align: middle;
     white-space: nowrap;
     text-overflow: ellipsis;

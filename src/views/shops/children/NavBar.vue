@@ -21,10 +21,20 @@
         }
       }
     },
-    data() {
-      return {
-        active: 0
-      };
+    computed: {
+      // 动态设置active
+      active: {
+        get() {
+          for (let i = 0; i < this.titleList.length; i++) {
+            if (this.titleList[i].url === this.$route.path) {
+              return i;
+            }
+          }
+        },
+        set(val) {
+          return val;
+        }
+      }
     }
   };
 </script>
