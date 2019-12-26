@@ -78,7 +78,7 @@
           phone: this.phone,
           code: this.code
         }).then(res => {
-          // 540666默认验证码
+          // 118357默认验证码
           console.log(res);
           if (res.msg === "验证成功") {
             localStorage.setItem("ele_login", "登录成功");

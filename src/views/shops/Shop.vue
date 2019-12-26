@@ -72,7 +72,6 @@
               item.count = 0;
             });
           });
-
           res.menu.forEach(menu => {
             menu.foods.forEach(food => {
               food.count = 0;
