@@ -81,7 +81,8 @@
           // 118357默认验证码
           console.log(res);
           if (res.msg === "验证成功") {
-            localStorage.setItem("ele_login", "登录成功");
+            // 存用户id
+            localStorage.setItem("ele_login", res.user._id);
             this.$notify({
               type: "success",
               message: "登录成功，正在跳转至首页",
