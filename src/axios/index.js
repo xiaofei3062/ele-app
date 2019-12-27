@@ -4,7 +4,7 @@ import axios from "axios";
 import { Toast } from "vant";
 
 let config = {
-  // baseURL: "https://ele-interface.herokuapp.com"
+  // baseURL: ""
 };
 
 const _axios = axios.create(config);
