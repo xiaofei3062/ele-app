@@ -8,17 +8,17 @@
 </template>
 
 <script>
-  import TarBar from "@/components/TarBar";
+import TarBar from "@/components/TarBar";
 
-  export default {
-    name: "Index",
-    components: { TarBar }
-  };
+export default {
+  name: "Index",
+  components: { TarBar }
+};
 </script>
 
 <style scoped>
-  .index {
-    width: 100%;
-    height: calc(100% - 50px);
-  }
+.index {
+  width: 100%;
+  height: calc(100% - 50px);
+}
 </style>
