@@ -11,7 +11,7 @@
       <div class="location">
         <location
           :address="$route.query.city"
-          @click="$router.push({ path: '/address', query: { city: $route.query.city } })"
+          @click="$router.push({ path: '/single', query: { city: $route.query.city } })"
         />
       </div>
       <alpha-bet :cityInfo="cityInfo" :keys="keys" @selectCity="selectCity" ref="allcity" />
@@ -115,7 +115,7 @@ export default {
     // 选择城市
     selectCity(city) {
       // console.log(city.name);
-      this.$router.push({ path: "/address", query: { city: city.name } });
+      this.$router.push({ path: "/single", query: { city: city.name } });
     },
     // 搜索城市
     searchCity(val) {
@@ -133,7 +133,7 @@ export default {
     handleBtnClick() {
       if (this.btnMsg === "取消") {
         this.$router.push({
-          path: "/address",
+          path: "/single",
           query: { city: this.$route.query.city }
         });
       } else {

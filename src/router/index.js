@@ -5,7 +5,8 @@ import VueRouter from "vue-router";
 import { IndexRouter } from "./one/one";
 import { ShopRouter } from "./shop/shop";
 import { LoginRouter } from "./login/login";
-import { SearchRouter } from "./search/search";
+// 引入数组路由
+import { SingleRouter } from "./single/single";
 
 Vue.use(VueRouter);
 
@@ -13,8 +14,12 @@ const routes = [
   IndexRouter,
   ShopRouter,
   LoginRouter,
-  SearchRouter,
-  { path: "*", redirect: "/" }
+  // 展开数组路由
+  ...SingleRouter,
+  {
+    path: "*",
+    redirect: "/"
+  }
 ];
 
 const router = new VueRouter({

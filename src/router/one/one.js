@@ -1,9 +1,12 @@
 // 一级路由
 const Index = () => import("@/views/Index");
-// 二级路由
+
+// tabBar路由
 const Home = () => import("@/views/home/Home");
-const Mine = () => import("@/views/mine/Mine");
 const Order = () => import("@/views/order/Order");
+const Mine = () => import("@/views/mine/Mine");
+
+// 二级路由
 const Address = () => import("@/views/home/children/Address");
 const City = () => import("@/views/home/children/City");
 

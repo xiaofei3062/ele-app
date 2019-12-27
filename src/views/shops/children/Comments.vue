@@ -84,7 +84,7 @@ export default {
       axios
         .get("/api/profile/comments")
         .then(res => {
-          console.log(res);
+          // console.log(res);
           this.evaluation = res;
         })
         .catch(err => {
