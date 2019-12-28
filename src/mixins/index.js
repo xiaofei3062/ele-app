@@ -13,9 +13,7 @@ export const mapMixins = {
       AMap.plugin("AMap.Geolocation", function() {
         var geolocation = new AMap.Geolocation({
           // 是否使用高精度定位，默认：true
-          enableHighAccuracy: true,
-          // 设置定位超时时间，默认：无穷大
-          timeout: 10000
+          enableHighAccuracy: true
         });
 
         geolocation.getCurrentPosition();
@@ -31,12 +29,12 @@ export const mapMixins = {
         }
 
         function onError(err) {
-          // 模糊定位
+          // 调用IP定位
           that.getLngLatLocation();
         }
       });
     },
-    // 模糊定位
+    // IP定位
     getLngLatLocation() {
       const that = this;
       AMap.plugin("AMap.CitySearch", function() {

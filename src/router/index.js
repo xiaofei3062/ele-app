@@ -16,10 +16,7 @@ const routes = [
   LoginRouter,
   // 展开数组路由
   ...SingleRouter,
-  {
-    path: "*",
-    redirect: "/"
-  }
+  { path: "*", redirect: "/" }
 ];
 
 const router = new VueRouter({
