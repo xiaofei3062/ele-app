@@ -1,8 +1,32 @@
 <template>
   <div class="myAddress">
-    <my-header :is-left="true" title="我的地址" />
+    <my-header :is-left="true" @click="$router.replace('/mine')" title="我的地址" />
+
+    <!-- 显示收货地址 -->
+    <div class="address-view">
+      <div :key="index" class="address-card" v-for="(address, index) in addressList">
+        <div class="address-card-select">
+          <i class="fa fa-check-circle" />
+        </div>
+        <div class="address-card-body">
+          <p class="address-card-title">
+            <span class="username">{{ address.name }}</span>
+            <span class="gender" v-if="address.sex">{{ address.sex }}</span>
+            <span class="phone">{{ address.phone }}</span>
+          </p>
+          <p class="address-card-address">
+            <span class="address-text">{{ address.address }} {{ address.bottom }}</span>
+          </p>
+        </div>
+        <div class="address-card-edit">
+          <i @click="editAddress(address)" class="fa fa-edit" />
+          <i @click="deleteAddress(address, index)" class="fa fa-close" />
+        </div>
+      </div>
+    </div>
+
     <!-- 新增收货地址 -->
-    <div class="address-view-bottom" @click="addAddress">
+    <div @click="addAddress" class="address-view-bottom">
       <i class="fa fa-plus-circle" />
       <span>新增收货地址</span>
     </div>
@@ -15,14 +39,68 @@ import MyHeader from "@/components/MyHeader";
 export default {
   name: "MyAddress",
   data() {
-    return {};
+    return {
+      addressList: [],
+      isGetData: true
+    };
   },
   methods: {
+    // 添加地址并清空传参数据
     addAddress() {
+      sessionStorage.removeItem("edit_address");
       this.$router.push("/addAddress");
+    },
+    // 请求地址数据
+    getAddressData() {
+      axios.get("/api/user/user_info/" + localStorage.getItem("ele_login")).then(res => {
+        // 这边需要倒序排 要不然删除的位置会相反
+        this.addressList = res.myAddress.reverse();
+      });
+    },
+    // 编辑地址
+    editAddress(address) {
+      sessionStorage.setItem("edit_address", JSON.stringify(address));
+      this.$router.push({ path: "/addAddress", query: { title: "修改地址" } });
+    },
+    // 删除地址
+    deleteAddress(address, index) {
+      this.$dialog
+        .confirm({
+          title: "温馨提示",
+          message: "您确定要删除该地址吗？"
+        })
+        .then(() => {
+          axios
+            .delete(`/api/user/address/${localStorage.ele_login}/${address._id}`)
+            .then(res => {
+              console.log(res);
+              this.$toast({
+                message: "删除地址成功",
+                onClose: () => {
+                  this.addressList.splice(index, 1);
+                }
+              });
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        })
+        .catch(() => {
+          return false;
+        });
     }
   },
-  components: { MyHeader }
+  components: { MyHeader },
+  activated() {
+    let isGetData = true;
+    isGetData = !this.$route.params.isGetData;
+    // 只有isGetData为真的时候才更新数据
+    if (isGetData) {
+      this.getAddressData();
+    }
+    // 初始化清空地址缓存
+    sessionStorage.removeItem("edit_address");
+  }
 };
 </script>
 
@@ -34,17 +112,17 @@ export default {
 }
 
 .address-view-bottom {
-  position: fixed;
-  height: 50px;
-  bottom: 0;
-  width: 100%;
-  background: #ffffff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-top: 1px solid #dddddd;
-  color: #3190e8;
   font-size: 16px;
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 50px;
+  color: #3190e8;
+  border-top: 1px solid #dddddd;
+  background: #ffffff;
 }
 
 .address-view-bottom > i {
@@ -53,89 +131,94 @@ export default {
 }
 
 .address-view {
-  height: 100%;
   overflow-y: auto;
-  padding-bottom: 13.866667vw;
+  height: 100%;
+  padding-bottom: 60px;
 }
 
 .address-card {
-  background-color: #ffffff;
-  padding: 4vw;
-  border-bottom: 1px solid #dddddd;
   display: flex;
-  min-height: 18.133333vw;
+  min-height: 60px;
+  padding: 20px 15px;
+  border-bottom: 1px solid #dddddd;
+  background-color: #ffffff;
 }
 
 .address-card-body {
-  flex: 1;
   overflow: hidden;
+  flex: 1;
 }
 
 .address-card-title {
-  font-size: 1rem;
-  color: #666666;
-  white-space: nowrap;
+  font-size: 16px;
+  display: flex;
   overflow: hidden;
+  align-items: center;
+  padding-bottom: 10px;
+  white-space: nowrap;
   text-overflow: ellipsis;
-  padding-bottom: 1.066667vw;
+  color: #666666;
 }
 
 .address-card-title .username {
-  color: #333333;
   font-weight: 700;
+  color: #333333;
 }
 
 .address-card-title .gender {
-  padding: 0 1.6vw 0 0.8vw;
+  font-size: 14px;
+  display: inline-block;
+  margin-right: 10px;
+  margin-left: 10px;
+  padding: 4px;
+  white-space: nowrap;
+  color: #ff5722;
+  border: 1px solid #ff5722;
+  border-radius: 3px;
 }
 
 .address-card-address {
-  color: #666666;
-  font-size: 0.84rem;
+  font-size: 14px;
   display: flex;
   align-items: center;
-}
-
-.address-card-address .tag {
-  display: inline-block;
-  position: relative;
-  margin-right: 0.8vw;
-  padding: 0.533333vw;
-  color: #ff5722;
-  white-space: nowrap;
-  border: 1px solid #ff5722;
-  border-radius: 0.133333vw;
-  font-size: 0.6rem !important;
-  line-height: 2.666667vw;
+  color: #666666;
 }
 
 .address-text {
-  line-height: 4.533333vw;
+  line-height: 20px;
+  max-width: 220px;
 }
 
 /* 编辑和删除 */
 .address-card-edit {
-  flex-basis: 13.066667vw;
   display: flex;
-  justify-content: space-around;
   align-items: center;
+  flex-basis: 50px;
+  justify-content: space-between;
 }
 
-.address-card-edit > i {
+.address-card-edit > i:first-child {
+  font-size: 20px;
+  display: inline-block;
   color: #aaaaaa;
-  font-size: 1.2rem;
+}
+
+.address-card-edit > i:last-child {
+  font-size: 22px;
+  display: inline-block;
+  padding-bottom: 3px;
+  color: #aaaaaa;
 }
 
 /* 选中图标 */
 .address-card-select {
-  flex-basis: 7.333333vw;
-  min-width: 7.333333vw;
   display: flex;
   align-items: center;
+  width: 30px;
 }
 
 .address-card-select > i {
-  font-size: 1.5rem;
+  font-size: 20px;
   color: #4cd964;
 }
 </style>

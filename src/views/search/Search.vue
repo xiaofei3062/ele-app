@@ -1,7 +1,7 @@
 <template>
   <div class="search">
     <!-- 页面头部 -->
-    <my-header :is-left="true" title="搜索" />
+    <my-header @click="$router.replace('/home')" :is-left="true" title="搜索" />
     <!-- 搜索头部 -->
     <div class="search_header">
       <form class="search_wrap">

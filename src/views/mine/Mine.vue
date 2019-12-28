@@ -19,7 +19,7 @@
 
     <!-- 退出登录 -->
     <template v-if="userInfo">
-      <div class="address-cell" @click="handleAddress">
+      <div @click="handleAddress" class="address-cell">
         <i class="fa fa-map-marker" />
         <span>我的地址</span>
         <i class="fa fa-angle-right" />
@@ -74,18 +74,14 @@ export default {
     },
     // 跳转至我的地址
     handleAddress() {
-      if (this.userInfo.myAddress.length > 0) {
-        this.$router.push("/myAddress");
-      } else {
-        this.$router.push("/addAddress");
-      }
+      this.$router.push("/myAddress");
     },
     getData() {
       const userId = localStorage.getItem("ele_login");
       axios
         .get("/api/user/user_info/" + userId)
         .then(res => {
-          console.log(res);
+          // console.log(res);
           this.userInfo = res;
         })
         .catch(err => {

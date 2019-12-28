@@ -5,7 +5,7 @@
       <div class="nav_bg">
         <img :src="shopInfo.rst.scheme" alt="" />
       </div>
-      <div @click="$router.push('/home')" class="nav_back">
+      <div @click="$router.go(-1)" class="nav_back">
         <i class="fa fa-chevron-left" />
         <span>返回</span>
       </div>

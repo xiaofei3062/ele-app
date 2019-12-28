@@ -13,10 +13,8 @@
         </p>
         <p class="bottomNav-cartdelivery">另需配送费{{ shopInfo.rst.float_delivery_fee }}元</p>
       </div>
-      <button class="submit-btn">
-        <span v-if="isEmpty">¥{{ shopInfo.rst.float_minimum_order_amount }} 元起送</span>
-        <span v-else>去结算</span>
-      </button>
+      <button class="submit-btn" v-if="isEmpty">¥{{ shopInfo.rst.float_minimum_order_amount }} 元起送</button>
+      <button @click="handleSettlement" class="submit-btn" v-else>去结算</button>
     </div>
 
     <!-- 购物车遮罩 -->
@@ -108,8 +106,17 @@ export default {
     }
   },
   methods: {
+    // 购物车显示隐藏
     handleShopView() {
       this.showCartView = !this.showCartView;
+    },
+    // 去结算
+    handleSettlement() {
+      this.$store.dispatch("setOrderInfo", {
+        shopInfo: this.shopInfo.rst,
+        selectFoods: this.selectFoods
+      });
+      this.$router.push("/settlement");
     },
     clearFoods() {
       this.showCartView = false;
@@ -190,7 +197,6 @@ export default {
 .submit-btn {
   font-size: 15px;
   font-weight: 600;
-  line-height: 100%;
   position: absolute;
   right: 0;
   display: block;
