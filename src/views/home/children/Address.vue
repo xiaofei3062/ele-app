@@ -71,7 +71,7 @@ export default {
     selectAddress(item) {
       // 设置地址
       if (item) {
-        this.$store.dispatch("setAddress", item.district + item.address + item.name);
+        this.$store.dispatch("setAddress", item.district + item.address);
       } else {
         this.$store.dispatch("setAddress", this.address);
       }

@@ -75,7 +75,7 @@ export default {
   },
   methods: {
     goAddress() {
-      this.$router.push({ path: "/single", query: { city: this.city } });
+      this.$router.push({ path: "/address", query: { city: this.city } });
     },
     getData() {
       // 商品列表数据

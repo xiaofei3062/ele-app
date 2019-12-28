@@ -115,7 +115,7 @@ export default {
     // 选择城市
     selectCity(city) {
       // console.log(city.name);
-      this.$router.push({ path: "/single", query: { city: city.name } });
+      this.$router.push({ path: "/address", query: { city: city.name } }).catch(err => {});
     },
     // 搜索城市
     searchCity(val) {
@@ -132,10 +132,12 @@ export default {
     // 取消清空按钮
     handleBtnClick() {
       if (this.btnMsg === "取消") {
-        this.$router.push({
-          path: "/single",
-          query: { city: this.$route.query.city }
-        });
+        this.$router
+          .push({
+            path: "/address",
+            query: { city: this.$route.query.city }
+          })
+          .catch(err => {});
       } else {
         // 清空数据并且清空输入框内容
         this.searchList = [];
