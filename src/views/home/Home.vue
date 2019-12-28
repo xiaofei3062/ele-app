@@ -45,13 +45,10 @@ import MySwiper from "@/components/MySwiper";
 import Entries from "./children/Entries";
 import FilterView from "./children/FilterView";
 import IndexShop from "./children/IndexShop";
-import { mapMixins } from "@/mixins";
 
 export default {
   name: "Home",
   components: { IndexShop, FilterView, Entries, MySwiper },
-  // 调用定位混入
-  mixins: [mapMixins],
   data() {
     return {
       swiperList: [],
