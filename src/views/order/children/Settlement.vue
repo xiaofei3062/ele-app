@@ -1,7 +1,27 @@
 <template>
   <div class="settlement">
-    <my-header @click="$router.go(-1)" :is-left="true" title="确认订单" />
-    确认订单
+    <my-header :is-left="true" @click="$router.go(-1)" title="确认订单" />
+
+    <!--  -->
+    <div class="view-body">
+      <div>
+        <div class="cart-address">
+          <p class="title">
+            订单配送至
+            <span class="address-tag" v-if="userInfo && userInfo.tag">{{ userInfo.tag }}</span>
+          </p>
+          <p @click="$router.push('/myAddress')" class="address-detail" v-if="isAddress">
+            <span v-if="userInfo">{{ userInfo.address }} {{ userInfo.bottom }}</span>
+            <span v-else>选择收货地址</span>
+            <i class="fa fa-angle-right" />
+          </p>
+          <p @click="$router.push('/addAddress')" class="address-detail" v-else>
+            <span>新增收货地址</span>
+            <i class="fa fa-angle-right" />
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -10,6 +30,34 @@ import MyHeader from "@/components/MyHeader";
 
 export default {
   name: "Settlement",
+  data() {
+    return {
+      isAddress: false
+    };
+  },
+  computed: {
+    userInfo() {
+      const address = this.$route.query.address;
+      if (address) {
+        // 这边首先将字符串解码,在转换成对象
+        return JSON.parse(decodeURIComponent(address));
+      }
+    }
+  },
+  methods: {
+    getData() {
+      axios.get(`/api/user/user_info/${localStorage.ele_login}`).then(res => {
+        console.log(res);
+        if (res.myAddress.length > 0) {
+          return (this.isAddress = true);
+        }
+        return (this.isAddress = false);
+      });
+    }
+  },
+  activated() {
+    this.getData();
+  },
   components: { MyHeader }
 };
 </script>
@@ -23,7 +71,7 @@ export default {
 }
 
 .view-body {
-  font-size: 0.9rem;
+  font-size: 14px;
   display: flex;
   overflow: auto;
   flex-direction: column;
@@ -31,9 +79,7 @@ export default {
   box-sizing: border-box;
   width: 100%;
   height: 100%;
-  padding-right: 1.6vw;
-  padding-bottom: 14.133333vw;
-  padding-left: 1.6vw;
+  padding: 0 15px;
   color: #333333;
   background-image: linear-gradient(0deg, #f5f5f5, #f5f5f5 65%, hsla(0, 0%, 96%, 0.3) 75%, hsla(0, 0%, 96%, 0)),
     linear-gradient(270deg, #009eef, #009eef);
@@ -41,22 +87,24 @@ export default {
 
 .cart-address {
   overflow: hidden;
-  min-height: 22.133333vw;
-  padding: 4.266667vw 2.133333vw 2.933333vw 2.133333vw;
+  min-height: 90px;
+  padding: 10px 15px;
   color: #ffffff;
   background-color: transparent;
 }
 
 .cart-address .title {
-  font-size: 0.9rem;
+  font-size: 14px;
   line-height: 1.21;
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
   color: hsla(0, 0%, 100%, 0.8);
 }
 
 .cart-address .address-detail {
-  font-size: 1.3rem;
+  font-size: 16px;
   font-weight: 600;
-  line-height: 1.88;
   display: flex;
   overflow: hidden;
   align-items: center;
@@ -65,18 +113,20 @@ export default {
 .address-detail > span {
   display: inline-block;
   overflow: hidden;
-  max-width: calc(100% - 4vw);
+  max-width: 300px;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
 .address-detail > i {
-  margin-left: 2.133333vw;
+  font-size: 24px;
+  display: inline-block;
+  margin-left: 8px;
 }
 
 /* 显示送货地址 */
 .address-name {
-  font-size: 0.86rem;
+  font-size: 14px;
   line-height: 1.21;
   margin-bottom: 1.333333vw;
 }
@@ -86,14 +136,13 @@ export default {
 }
 
 .address-tag {
-  font-size: 0.6rem !important;
-  line-height: 2.666667vw;
+  font-size: 12px !important;
   display: inline-block;
-  margin-left: 1.6vw;
-  padding: 0.533333vw;
+  margin-left: 8px;
+  padding: 2px 4px;
   white-space: nowrap;
-  border: 0.133334vw solid hsla(0, 0%, 100%, 0.8);
-  border-radius: 0.133333vw;
+  border: 1px solid hsla(0, 0%, 100%, 0.8);
+  border-radius: 3px;
 }
 
 .checkout-section {

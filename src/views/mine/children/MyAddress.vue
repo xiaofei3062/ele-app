@@ -1,14 +1,14 @@
 <template>
   <div class="myAddress">
-    <my-header :is-left="true" @click="$router.replace('/mine')" title="我的地址" />
+    <my-header :is-left="true" @click="$router.go(-1)" title="我的地址" />
 
     <!-- 显示收货地址 -->
     <div class="address-view">
       <div :key="index" class="address-card" v-for="(address, index) in addressList">
         <div class="address-card-select">
-          <i class="fa fa-check-circle" />
+          <i class="fa fa-check-circle" v-if="selectIndex === index" />
         </div>
-        <div class="address-card-body">
+        <div @click="selectAddress(address, index)" class="address-card-body">
           <p class="address-card-title">
             <span class="username">{{ address.name }}</span>
             <span class="gender" v-if="address.sex">{{ address.sex }}</span>
@@ -41,26 +41,28 @@ export default {
   data() {
     return {
       addressList: [],
-      isGetData: true
+      isGetData: true,
+      selectIndex: 0
     };
   },
   methods: {
     // 添加地址并清空传参数据
     addAddress() {
-      sessionStorage.removeItem("edit_address");
-      this.$router.push("/addAddress");
+      this.$router.replace("/addAddress");
     },
     // 请求地址数据
     getAddressData() {
       axios.get("/api/user/user_info/" + localStorage.getItem("ele_login")).then(res => {
-        // 这边需要倒序排 要不然删除的位置会相反
-        this.addressList = res.myAddress.reverse();
+        this.addressList = res.myAddress;
       });
     },
     // 编辑地址
     editAddress(address) {
-      sessionStorage.setItem("edit_address", JSON.stringify(address));
-      this.$router.push({ path: "/addAddress", query: { title: "修改地址" } });
+      this.$router.replace({
+        path: "/addAddress",
+        // 这边首先将对象转换成字符串,然后进行字符串编码
+        query: { title: "修改地址", address: encodeURIComponent(JSON.stringify(address)) }
+      });
     },
     // 删除地址
     deleteAddress(address, index) {
@@ -88,18 +90,20 @@ export default {
         .catch(() => {
           return false;
         });
+    },
+    // 选择地址
+    selectAddress(addressObj, index) {
+      this.selectIndex = index;
+      this.$router.replace({
+        path: "/settlement",
+        // 这边首先将对象转换成字符串,然后进行字符串编码
+        query: { address: encodeURIComponent(JSON.stringify(addressObj)) }
+      });
     }
   },
   components: { MyHeader },
   activated() {
-    let isGetData = true;
-    isGetData = !this.$route.params.isGetData;
-    // 只有isGetData为真的时候才更新数据
-    if (isGetData) {
-      this.getAddressData();
-    }
-    // 初始化清空地址缓存
-    sessionStorage.removeItem("edit_address");
+    this.getAddressData();
   }
 };
 </script>

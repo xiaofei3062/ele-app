@@ -1,6 +1,6 @@
 <template>
   <div class="ele-container">
-    <keep-alive exclude="Shop">
+    <keep-alive>
       <router-view />
     </keep-alive>
   </div>

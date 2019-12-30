@@ -1,11 +1,7 @@
 <template>
   <div class="addAddress">
     <!-- 头部 -->
-    <my-header
-      :is-left="true"
-      :title="title"
-      @click="$router.replace({ name: 'myAddress', params: { isGetData: 'false' } })"
-    />
+    <my-header :is-left="true" :title="title" @click="$router.replace('/myAddress')" />
 
     <!-- 添加地址 -->
     <div class="viewbody">
@@ -193,7 +189,7 @@ export default {
         .then(res => {
           // 提交数据成功后清空表单
           this.clearAddress();
-          this.$router.push("/myAddress");
+          this.$router.replace("/myAddress");
         })
         .catch(err => {
           console.log(err);
@@ -211,12 +207,15 @@ export default {
     // 接收传过来的编辑地址数据
     acceptAddress() {
       this.title = this.$route.query.title || "新增收货地址";
-      const address = sessionStorage.getItem("edit_address");
+      const address = this.$route.query.address;
+      // 这边只有参数存在才赋值
       if (address) {
+        // 这边首先将字符串解码,在转换成对象
+        const addressInfo = JSON.parse(decodeURIComponent(address));
         this.isDelete = true;
-        this.addressInfo = JSON.parse(address);
+        this.addressInfo = addressInfo;
       } else {
-        // 没有缓存则清空数据
+        // 没有addressInfo则清空数据
         this.isDelete = false;
         this.clearAddress();
       }
@@ -230,7 +229,7 @@ export default {
           this.$toast({
             message: "修改地址成功",
             onClose: () => {
-              this.$router.push("/myAddress");
+              this.$router.replace("/myAddress");
             }
           });
         })
@@ -250,12 +249,11 @@ export default {
             .delete(`/api/user/address/${localStorage.ele_login}/${this.addressInfo._id}`)
             .then(res => {
               this.clearAddress();
-              sessionStorage.removeItem("edit_address");
               this.isDelete = false;
               this.$toast({
                 message: "删除地址成功",
                 onClose: () => {
-                  this.$router.push("/myAddress");
+                  this.$router.replace("/myAddress");
                 }
               });
             })

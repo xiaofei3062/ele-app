@@ -1,7 +1,7 @@
 <template>
   <div class="nav-bar">
     <van-tabs color="#009eef" title-active-color="#009eef" v-model="active">
-      <van-tab :key="index" :title="item.name" :to="item.url" v-for="(item, index) in titleList" />
+      <van-tab :key="index" :title="item.name" :to="item.url" replace v-for="(item, index) in titleList" />
     </van-tabs>
   </div>
 </template>
