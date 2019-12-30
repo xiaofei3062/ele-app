@@ -94,11 +94,15 @@ export default {
     // 选择地址
     selectAddress(addressObj, index) {
       this.selectIndex = index;
-      this.$router.replace({
-        path: "/settlement",
-        // 这边首先将对象转换成字符串,然后进行字符串编码
-        query: { address: encodeURIComponent(JSON.stringify(addressObj)) }
-      });
+      const num = this.$route.query.num;
+      // 只有从订单页跳过来,才可以跳转
+      if (num) {
+        this.$router.replace({
+          path: "/settlement",
+          // 这边首先将对象转换成字符串,然后进行字符串编码
+          query: { address: encodeURIComponent(JSON.stringify(addressObj)) }
+        });
+      }
     }
   },
   components: { MyHeader },

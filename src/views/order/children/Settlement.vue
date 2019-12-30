@@ -2,37 +2,73 @@
   <div class="settlement">
     <my-header :is-left="true" @click="$router.go(-1)" title="确认订单" />
 
-    <!--  -->
-    <div class="view-body">
-      <div>
-        <div class="cart-address">
-          <p class="title">
-            订单配送至
-            <span class="address-tag" v-if="userInfo && userInfo.tag">{{ userInfo.tag }}</span>
-          </p>
-          <p @click="$router.push('/myAddress')" class="address-detail" v-if="isAddress">
-            <span v-if="userInfo">{{ userInfo.address }} {{ userInfo.bottom }}</span>
-            <span v-else>选择收货地址</span>
-            <i class="fa fa-angle-right" />
-          </p>
-          <p @click="$router.push('/addAddress')" class="address-detail" v-else>
-            <span>新增收货地址</span>
-            <i class="fa fa-angle-right" />
-          </p>
-        </div>
+    <div class="view-body" v-if="isAddress">
+      <!-- 收货地址 -->
+      <div class="cart-address">
+        <p class="title">
+          订单配送至
+          <span class="address-tag" v-if="userInfo.tag">{{ userInfo.tag }}</span>
+        </p>
+        <p @click="$router.push({ path: '/myAddress', query: { num: '2' } })" class="address-detail">
+          <span v-if="userInfo.address && userInfo.bottom">{{ userInfo.address }} {{ userInfo.bottom }}</span>
+          <span v-else>选择收货地址</span>
+          <i class="fa fa-angle-right" />
+        </p>
+        <h2 class="address-name" v-if="Object.keys(userInfo).length !== 0">
+          <span>{{ userInfo.name }}</span>
+          <span>({{ userInfo.sex }})</span>
+          <span class="phone">{{ userInfo.phone }}</span>
+        </h2>
+      </div>
+
+      <!-- 送达时间 -->
+      <delivery :shop-info="orderInfo.shopInfo" />
+
+      <!-- 点餐内容 -->
+      <cart-group :order-info="orderInfo" :total-price="totalPrice" />
+
+      <!-- 备注信息 -->
+      <div class="checkout-section">
+        <van-cell-group>
+          <van-cell :value="subHead" @click="showMenu = true" is-link title="餐具份数" />
+          <van-cell @click="isAddress = false" is-link title="订单备注" value="口味/偏好" />
+          <van-cell is-link title="发票信息" value="暂不支持开发票" />
+        </van-cell-group>
       </div>
     </div>
+
+    <!-- 弹出菜单 -->
+    <van-action-sheet
+      :actions="actions"
+      @cancel="onCancel"
+      @select="onSelect"
+      cancel-text="取消"
+      title="请选择餐具份数"
+      v-model="showMenu"
+    />
+    <!-- 订单备注 -->
+    <remark v-if="!isAddress" />
   </div>
 </template>
 
 <script>
 import MyHeader from "@/components/MyHeader";
+import Delivery from "./Delivery";
+import CartGroup from "./CartGroup";
+import Remark from "./Remark";
 
 export default {
   name: "Settlement",
   data() {
     return {
-      isAddress: false
+      orderInfo: {},
+      totalPrice: 0,
+      subHead: "未选择",
+      isAddress: true,
+      // 菜单显示
+      showMenu: false,
+      // 菜单数据
+      actions: [{ name: "1" }, { name: "2" }, { name: "3" }, { name: "4" }, { name: "5" }, { name: "6" }]
     };
   },
   computed: {
@@ -41,24 +77,41 @@ export default {
       if (address) {
         // 这边首先将字符串解码,在转换成对象
         return JSON.parse(decodeURIComponent(address));
+      } else {
+        return {};
       }
     }
   },
   methods: {
-    getData() {
-      axios.get(`/api/user/user_info/${localStorage.ele_login}`).then(res => {
-        console.log(res);
-        if (res.myAddress.length > 0) {
-          return (this.isAddress = true);
+    // 获取缓存中的orderInfo
+    setOrderInfo() {
+      const orderInfo = sessionStorage.getItem("orderInfo");
+      if (orderInfo) {
+        // 给orderInfo更新数据
+        this.orderInfo = JSON.parse(orderInfo);
+        // 获取总价 总价加上配送费
+        if (this.orderInfo.shopInfo.float_delivery_fee) {
+          this.totalPrice = this.orderInfo.totalPrice + this.orderInfo.shopInfo.float_delivery_fee;
+        } else {
+          // 没有配送费直接显示总价
+          this.totalPrice = this.orderInfo.totalPrice;
         }
-        return (this.isAddress = false);
-      });
+      }
+    },
+    // 取消菜单
+    onCancel() {
+      this.showMenu = false;
+    },
+    onSelect(item) {
+      this.subHead = item.name + "份";
+      this.showMenu = false;
     }
   },
   activated() {
-    this.getData();
+    // 每次进来都更新orderInfo数据
+    this.setOrderInfo();
   },
-  components: { MyHeader }
+  components: { Remark, CartGroup, Delivery, MyHeader }
 };
 </script>
 
@@ -124,15 +177,21 @@ export default {
   margin-left: 8px;
 }
 
+.checkout-section {
+  margin-bottom: 10px;
+  background: #ffffff;
+}
+
 /* 显示送货地址 */
 .address-name {
   font-size: 14px;
-  line-height: 1.21;
-  margin-bottom: 1.333333vw;
+  font-weight: normal;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .address-name .phone {
-  margin-left: 2.133333vw;
+  margin-left: 10px;
 }
 
 .address-tag {
@@ -143,13 +202,6 @@ export default {
   white-space: nowrap;
   border: 1px solid hsla(0, 0%, 100%, 0.8);
   border-radius: 3px;
-}
-
-.checkout-section {
-  margin-bottom: 2.133333vw;
-  padding: 0 5.333333vw;
-  background: #ffffff;
-  box-shadow: 0 0.133333vw 0.266667vw 0 rgba(0, 0, 0, 0.05);
 }
 
 /* 底部支付样式 */

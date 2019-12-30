@@ -112,11 +112,15 @@ export default {
     },
     // 去结算
     handleSettlement() {
-      this.$store.dispatch("setOrderInfo", {
+      const orderInfo = {
         shopInfo: this.shopInfo.rst,
-        selectFoods: this.selectFoods
+        selectFoods: this.selectFoods,
+        totalPrice: this.totalPrice
+      };
+      sessionStorage.setItem("orderInfo", JSON.stringify(orderInfo));
+      this.$router.push({
+        path: "/settlement"
       });
-      this.$router.push("/settlement");
     },
     clearFoods() {
       this.showCartView = false;
@@ -134,6 +138,10 @@ export default {
         });
       });
     }
+  },
+  activated() {
+    // 每次回来清空缓存
+    sessionStorage.removeItem("orderInfo");
   }
 };
 </script>
