@@ -30,8 +30,8 @@
       <!-- 备注信息 -->
       <div class="checkout-section">
         <van-cell-group>
-          <van-cell :value="subHead" @click="showMenu = true" is-link title="餐具份数" />
-          <van-cell @click="isAddress = false" is-link title="订单备注" :value="remark" />
+          <van-cell :value="remarkInfo.subHead || '未选择'" @click="showMenu = true" is-link title="餐具份数" />
+          <van-cell :value="remarkInfo.remark || '备注/选填'" @click="isAddress = false" is-link title="订单备注" />
           <van-cell is-link title="发票信息" value="暂不支持开发票" />
         </van-cell-group>
       </div>
@@ -50,6 +50,17 @@
     <keep-alive>
       <remark v-if="!isAddress" />
     </keep-alive>
+
+    <!-- 提交订单 -->
+    <van-submit-bar
+      :price="totalPrice * 100"
+      @submit="onSubmit"
+      button-text="提交订单"
+      button-type="info"
+      safe-area-inset-bottom
+      text-align="left"
+      v-if="isAddress"
+    />
   </div>
 </template>
 
@@ -65,13 +76,16 @@ export default {
     return {
       orderInfo: {},
       totalPrice: 0,
-      subHead: "未选择",
-      remark: "订单/备注",
-      isAddress: false,
+      // 订单对象
+      remarkInfo: {
+        subHead: "",
+        remark: ""
+      },
+      isAddress: true,
       // 菜单显示
       showMenu: false,
       // 菜单数据
-      actions: [{ name: "1" }, { name: "2" }, { name: "3" }, { name: "4" }, { name: "5" }, { name: "6" }]
+      actions: [{ name: "1份" }, { name: "2份" }, { name: "3份" }, { name: "4份" }, { name: "5份" }, { name: "6份" }]
     };
   },
   computed: {
@@ -105,9 +119,21 @@ export default {
     onCancel() {
       this.showMenu = false;
     },
+    // 选择菜单
     onSelect(item) {
-      this.subHead = item.name + "份";
+      this.remarkInfo.subHead = item.name;
       this.showMenu = false;
+    },
+    // 提交订单
+    onSubmit() {
+      const address = this.$route.query.address;
+      if (!address) {
+        this.$toast("请选择收货地址");
+      } else if (!this.remarkInfo.subHead) {
+        this.$toast("请选择餐具份数");
+      } else {
+        this.$router.push("/pay");
+      }
     }
   },
   activated() {
@@ -134,7 +160,7 @@ export default {
   flex-grow: 1;
   box-sizing: border-box;
   width: 100%;
-  height: 100%;
+  height: calc(100vh - 104px);
   padding: 0 15px;
   color: #333333;
   background-image: linear-gradient(0deg, #f5f5f5, #f5f5f5 65%, hsla(0, 0%, 96%, 0.3) 75%, hsla(0, 0%, 96%, 0)),

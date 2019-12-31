@@ -42,7 +42,8 @@ export default {
   name: "Remark",
   data() {
     return {
-      message: "",
+      tagMsg: "",
+      selectMsg: "",
       tagList: [
         { select: false, name: "不吃葱" },
         { select: false, name: "不吃蒜" },
@@ -58,14 +59,26 @@ export default {
       ]
     };
   },
+  computed: {
+    message: {
+      get() {
+        const msg = this.tagMsg + this.selectMsg;
+        // 截取最后一个逗号
+        return msg.substr(0, msg.lastIndexOf("，"));
+      },
+      set(val) {
+        return val;
+      }
+    }
+  },
   methods: {
     selectClick(item) {
       item.select = !item.select;
       if (item.select) {
-        this.message += item.name + "，";
+        this.selectMsg += item.name + "，";
       } else {
         const name = item.name + "，";
-        this.message = this.message.replace(name, "");
+        this.selectMsg = this.selectMsg.replace(name, "");
       }
     },
     tagClick(tag) {
@@ -74,11 +87,11 @@ export default {
         ele.select = false;
       });
       tag.select = true;
-      this.message = tag.name + "，";
+      this.tagMsg = tag.name + "，";
     },
     // 给父组件传参
     btnClick() {
-      this.$parent.remark = this.message;
+      this.$parent.remarkInfo.remark = this.message;
       this.$parent.isAddress = true;
     }
   },
