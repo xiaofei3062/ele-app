@@ -35,7 +35,11 @@ export default {
     deliveryTime(time) {
       const date = new Date();
       date.setMinutes(date.getMinutes() + time);
-      return date.getHours() + ":" + date.getMinutes();
+      return (
+        (date.getHours() < 10 ? "0" + date.getHours() : date.getHours()) +
+        ":" +
+        (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes())
+      );
     }
   }
 };

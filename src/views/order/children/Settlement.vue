@@ -31,7 +31,7 @@
       <div class="checkout-section">
         <van-cell-group>
           <van-cell :value="subHead" @click="showMenu = true" is-link title="餐具份数" />
-          <van-cell @click="isAddress = false" is-link title="订单备注" value="口味/偏好" />
+          <van-cell @click="isAddress = false" is-link title="订单备注" :value="remark" />
           <van-cell is-link title="发票信息" value="暂不支持开发票" />
         </van-cell-group>
       </div>
@@ -47,7 +47,9 @@
       v-model="showMenu"
     />
     <!-- 订单备注 -->
-    <remark v-if="!isAddress" />
+    <keep-alive>
+      <remark v-if="!isAddress" />
+    </keep-alive>
   </div>
 </template>
 
@@ -64,7 +66,8 @@ export default {
       orderInfo: {},
       totalPrice: 0,
       subHead: "未选择",
-      isAddress: true,
+      remark: "订单/备注",
+      isAddress: false,
       // 菜单显示
       showMenu: false,
       // 菜单数据
