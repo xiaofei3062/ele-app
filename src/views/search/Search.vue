@@ -1,7 +1,7 @@
 <template>
   <div class="search">
     <!-- 页面头部 -->
-    <my-header @click="$router.replace('/home')" :is-left="true" title="搜索" />
+    <my-header :is-left="true" @click="$router.replace('/home')" title="搜索" />
     <!-- 搜索头部 -->
     <div class="search_header">
       <form class="search_wrap">
@@ -29,7 +29,11 @@
       <!-- 导航 -->
       <filter-view :filter-data="filterData" @update="update" />
       <div :infinite-scroll-disabled="loading" class="shoplist" v-infinite-scroll="loadMore">
-        <IndexShop :key="index" :restaurant="item.restaurant" v-for="(item, index) in restaurants" />
+        <IndexShop
+          :key="index"
+          :restaurant="item.restaurant"
+          v-for="(item, index) in restaurants"
+        />
       </div>
     </div>
   </div>

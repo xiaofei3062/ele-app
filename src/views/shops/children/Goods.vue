@@ -1,7 +1,11 @@
 <template>
   <div class="goods">
     <!-- 商家推荐 -->
-    <div :key="recommendIndex" class="recommend" v-for="(recommend, recommendIndex) in shopInfo.recommend">
+    <div
+      :key="recommendIndex"
+      class="recommend"
+      v-for="(recommend, recommendIndex) in shopInfo.recommend"
+    >
       <p class="recommend-name">{{ recommend.name }}</p>
       <div class="recommend-wrap">
         <ul>
@@ -49,7 +53,12 @@
               <span>{{ item.description }}</span>
             </div>
             <!-- 内容下 -->
-            <div :key="i" @click="handleFood(food)" class="fooddetails" v-for="(food, i) in item.foods">
+            <div
+              :key="i"
+              @click="handleFood(food)"
+              class="fooddetails"
+              v-for="(food, i) in item.foods"
+            >
               <!-- 左 -->
               <img :src="food.image_path" alt />
               <!-- 右 -->

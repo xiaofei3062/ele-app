@@ -107,7 +107,11 @@
     </div>
 
     <!-- 搜索地址 -->
-    <address-search :is-search="isSearch" @close="isSearch = false" @selectAddress="selectAddress" />
+    <address-search
+      :is-search="isSearch"
+      @close="isSearch = false"
+      @selectAddress="selectAddress"
+    />
   </div>
 </template>
 
@@ -173,13 +177,8 @@ export default {
       } else if (!this.addressInfo.tag) {
         this.$toast("请选择标签");
       } else {
-        // isDelete为真 发送修改请求
-        if (this.isDelete === true) {
-          this.editAddress(this.addressInfo);
-        } else {
-          // isDelete为假 发送保存请求
-          this.saveAddress(this.addressInfo);
-        }
+        // isDelete为真调用编辑地址,反之调用保存地址
+        this.isDelete ? this.editAddress(this.addressInfo) : this.saveAddress(this.addressInfo);
       }
     },
     // 保存地址

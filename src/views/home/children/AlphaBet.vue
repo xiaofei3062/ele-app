@@ -5,7 +5,11 @@
       <div class="hot_wrap citylist">
         <div class="title">热门城市</div>
         <ul class="hot_city">
-          <li :key="index" @tap="$emit('selectCity', item)" v-for="(item, index) in cityInfo.hotCities">
+          <li
+            :key="index"
+            @tap="$emit('selectCity', item)"
+            v-for="(item, index) in cityInfo.hotCities"
+          >
             {{ item.name }}
           </li>
         </ul>
@@ -17,7 +21,11 @@
           <div class="title">{{ item }}</div>
           <!-- 根据字母key展示城市名 -->
           <ul>
-            <li :key="index" @tap="$emit('selectCity', city)" v-for="(city, index) in cityInfo[item]">
+            <li
+              :key="index"
+              @tap="$emit('selectCity', city)"
+              v-for="(city, index) in cityInfo[item]"
+            >
               {{ city.name }}
             </li>
           </ul>

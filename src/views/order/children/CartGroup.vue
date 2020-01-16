@@ -100,10 +100,10 @@ export default {
 }
 
 .cart-group-total {
-  justify-content: space-between;
-  padding: 15px 0 !important;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  padding: 15px 0 !important;
 }
 
 .discounts {

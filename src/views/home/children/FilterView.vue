@@ -18,7 +18,11 @@
     <!-- 排序 -->
     <div class="filter-extend" v-if="isSort">
       <ul>
-        <li :key="index" @click="selectSort(item, index)" v-for="(item, index) in filterData.sortBy">
+        <li
+          :key="index"
+          @click="selectSort(item, index)"
+          v-for="(item, index) in filterData.sortBy"
+        >
           <span :class="{ selectName: currentSort === index }">
             {{ item.name }}
           </span>

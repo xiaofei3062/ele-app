@@ -9,8 +9,13 @@
           订单配送至
           <span class="address-tag" v-if="userInfo.tag">{{ userInfo.tag }}</span>
         </p>
-        <p @click="$router.push({ path: '/myAddress', query: { num: '2' } })" class="address-detail">
-          <span v-if="userInfo.address && userInfo.bottom">{{ userInfo.address }} {{ userInfo.bottom }}</span>
+        <p
+          @click="$router.push({ path: '/myAddress', query: { num: '2' } })"
+          class="address-detail"
+        >
+          <span v-if="userInfo.address && userInfo.bottom">
+            {{ userInfo.address }} {{ userInfo.bottom }}
+          </span>
           <span v-else>选择收货地址</span>
           <i class="fa fa-angle-right" />
         </p>
@@ -30,8 +35,18 @@
       <!-- 备注信息 -->
       <div class="checkout-section">
         <van-cell-group>
-          <van-cell :value="remarkInfo.subHead || '未选择'" @click="showMenu = true" is-link title="餐具份数" />
-          <van-cell :value="remarkInfo.remark || '备注/选填'" @click="isAddress = false" is-link title="订单备注" />
+          <van-cell
+            :value="remarkInfo.subHead || '未选择'"
+            @click="showMenu = true"
+            is-link
+            title="餐具份数"
+          />
+          <van-cell
+            :value="remarkInfo.remark || '备注/选填'"
+            @click="isAddress = false"
+            is-link
+            title="订单备注"
+          />
           <van-cell is-link title="发票信息" value="暂不支持开发票" />
         </van-cell-group>
       </div>
@@ -85,7 +100,14 @@ export default {
       // 菜单显示
       showMenu: false,
       // 菜单数据
-      actions: [{ name: "1份" }, { name: "2份" }, { name: "3份" }, { name: "4份" }, { name: "5份" }, { name: "6份" }]
+      actions: [
+        { name: "1份" },
+        { name: "2份" },
+        { name: "3份" },
+        { name: "4份" },
+        { name: "5份" },
+        { name: "6份" }
+      ]
     };
   },
   computed: {
@@ -163,7 +185,13 @@ export default {
   height: calc(100vh - 104px);
   padding: 0 15px;
   color: #333333;
-  background-image: linear-gradient(0deg, #f5f5f5, #f5f5f5 65%, hsla(0, 0%, 96%, 0.3) 75%, hsla(0, 0%, 96%, 0)),
+  background-image: linear-gradient(
+      0deg,
+      #f5f5f5,
+      #f5f5f5 65%,
+      hsla(0, 0%, 96%, 0.3) 75%,
+      hsla(0, 0%, 96%, 0)
+    ),
     linear-gradient(270deg, #009eef, #009eef);
 }
 

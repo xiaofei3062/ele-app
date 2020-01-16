@@ -34,7 +34,11 @@
       ref="loadmore"
     >
       <div class="shoplist">
-        <IndexShop :key="index" :restaurant="item.restaurant" v-for="(item, index) in restaurants" />
+        <IndexShop
+          :key="index"
+          :restaurant="item.restaurant"
+          v-for="(item, index) in restaurants"
+        />
       </div>
     </mt-loadmore>
   </div>
@@ -69,7 +73,8 @@ export default {
     },
     city() {
       return (
-        this.$store.getters.location.addressComponent.city || this.$store.getters.location.addressComponent.province
+        this.$store.getters.location.addressComponent.city ||
+        this.$store.getters.location.addressComponent.province
       );
     }
   },

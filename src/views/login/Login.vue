@@ -15,7 +15,13 @@
       v-model="phone"
     />
     <!-- 验证码 -->
-    <input-group :error="errors.code" maxlength="6" placeholder="请输入验证码" type="num" v-model="code" />
+    <input-group
+      :error="errors.code"
+      maxlength="6"
+      placeholder="请输入验证码"
+      type="num"
+      v-model="code"
+    />
     <!-- 用户服务协议 -->
     <div class="login_des">
       <p>

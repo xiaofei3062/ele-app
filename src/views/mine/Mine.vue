@@ -5,7 +5,7 @@
       <div class="head-img"></div>
       <div class="head-profile">
         <p class="user-id" v-if="userInfo._id">
-          {{ userInfo._id ? "尤万三" : userInfo.id }}
+          {{ userInfo._id ? "尤万三" : "未登录" }}
         </p>
         <p @click="handleLogin" class="user-id" v-else>登录/注册</p>
         <p class="user-phone">

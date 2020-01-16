@@ -21,7 +21,11 @@
         <i class="fa fa-caret-right" />
       </div>
       <!-- 弹窗信息 -->
-      <info-model :rst="shopInfo.rst" :show-info-model="showInfoModel" @modelClose="showInfoModel = false" />
+      <info-model
+        :rst="shopInfo.rst"
+        :show-info-model="showInfoModel"
+        @modelClose="showInfoModel = false"
+      />
       <!-- 评分月售 -->
       <div class="rst-order">
         <span>评分{{ shopInfo.rst.rating }}</span>

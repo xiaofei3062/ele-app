@@ -8,7 +8,9 @@
         </div>
       </div>
       <div class="delivery-right">
-        <span class="delivery-select">尽快送达 ({{ deliveryTime(shopInfo.order_lead_time) }}) 送达</span>
+        <span class="delivery-select">
+          尽快送达 ({{ deliveryTime(shopInfo.order_lead_time) }}) 送达
+        </span>
         <i class="fa fa-angle-right" />
       </div>
     </div>

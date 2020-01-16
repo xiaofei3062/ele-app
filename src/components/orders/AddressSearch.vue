@@ -9,7 +9,12 @@
         <button @click="$emit('close')" class="search-box-btn">取消</button>
       </div>
       <ul class="search-list">
-        <li @click="selectAddress(item)" :key="index" class="search-row" v-for="(item, index) in areaList">
+        <li
+          :key="index"
+          @click="selectAddress(item)"
+          class="search-row"
+          v-for="(item, index) in areaList"
+        >
           <p class="search-row-title">{{ item.name }}</p>
           <p class="search-row-location">{{ item.district }}{{ item.address }}</p>
         </li>
@@ -41,7 +46,8 @@ export default {
   computed: {
     city() {
       return (
-        this.$store.getters.location.addressComponent.city || this.$store.getters.location.addressComponent.province
+        this.$store.getters.location.addressComponent.city ||
+        this.$store.getters.location.addressComponent.province
       );
     }
   },
@@ -96,10 +102,10 @@ export default {
 }
 
 .search-box-input {
-  width: 280px;
-  height: 30px;
   display: flex;
   align-items: center;
+  width: 280px;
+  height: 30px;
   margin-right: 10px;
   padding: 0 10px;
   color: #999999;
@@ -148,15 +154,15 @@ button {
 
 .search-row-title {
   font-size: 15px;
-  color: #333333;
-  margin-bottom: 5px;
   display: block;
+  margin-bottom: 5px;
+  color: #333333;
 }
 
 .search-row-location {
   font-size: 14px;
-  color: #999999;
   display: block;
   text-align: justify;
+  color: #999999;
 }
 </style>

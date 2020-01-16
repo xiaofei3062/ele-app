@@ -11,7 +11,9 @@
       <section class="home">
         <ul class="list info-list">
           <li>
-            <span class="order-name" v-if="Object.keys(orderInfo).length !== 0">{{ orderInfo.shopInfo.name }}</span>
+            <span class="order-name" v-if="Object.keys(orderInfo).length !== 0">
+              {{ orderInfo.shopInfo.name }}
+            </span>
             <span class="text-highlight">¥{{ totalPrice }}</span>
           </li>
         </ul>
@@ -26,7 +28,9 @@
           </li>
         </ul>
       </section>
-      <van-button :disabled="timerOut" class="pay-btn" round size="large" type="primary">确认支付</van-button>
+      <van-button :disabled="timerOut" class="pay-btn" round size="large" type="primary">
+        确认支付
+      </van-button>
     </div>
   </div>
 </template>

@@ -1,6 +1,6 @@
 <template>
   <div class="address">
-    <my-header @click="$router.replace('/home')" :is-left="true" title="请选择收货地址" />
+    <my-header :is-left="true" @click="$router.replace('/home')" title="请选择收货地址" />
     <div class="city_search">
       <div class="search">
         <span @click="$router.push({ path: '/city', query: { city: city } })" class="city">

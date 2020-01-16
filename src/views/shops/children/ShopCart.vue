@@ -13,13 +13,19 @@
         </p>
         <p class="bottomNav-cartdelivery">另需配送费{{ shopInfo.rst.float_delivery_fee }}元</p>
       </div>
-      <button class="submit-btn" v-if="isEmpty">¥{{ shopInfo.rst.float_minimum_order_amount }} 元起送</button>
+      <button class="submit-btn" v-if="isEmpty">
+        ¥{{ shopInfo.rst.float_minimum_order_amount }} 元起送
+      </button>
       <button @click="handleSettlement" class="submit-btn" v-else>去结算</button>
     </div>
 
     <!-- 购物车遮罩 -->
     <transition name="fade">
-      <div @click.self="showCartView = false" class="cartview-cartmask" v-if="showCartView && !isEmpty">
+      <div
+        @click.self="showCartView = false"
+        class="cartview-cartmask"
+        v-if="showCartView && !isEmpty"
+      >
         <div class="cartview-cartbody">
           <!-- 上面 -->
           <div class="cartview-cartheader">

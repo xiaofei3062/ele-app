@@ -31,7 +31,11 @@
     <div class="shop-info">
       <!-- 标签 -->
       <ul class="tags">
-        <li :class="{ unsatisfied: item.unsatisfied }" :key="index" v-for="(item, index) in evaluation.tags">
+        <li
+          :class="{ unsatisfied: item.unsatisfied }"
+          :key="index"
+          v-for="(item, index) in evaluation.tags"
+        >
           {{ item.name }}
           <span v-if="item.count > 0">{{ item.count }}</span>
         </li>
