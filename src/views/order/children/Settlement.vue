@@ -135,6 +135,8 @@ export default {
           // 没有配送费直接显示总价
           this.totalPrice = this.orderInfo.totalPrice;
         }
+      } else {
+        this.$router.replace("/shop/goods");
       }
     },
     // 取消菜单

@@ -43,8 +43,8 @@ export default {
   name: "Login",
   data() {
     return {
-      phone: "",
-      code: "",
+      phone: "17610351502",
+      code: "123456",
       errors: {},
       btnTitle: "获取验证码",
       disabled: false
@@ -60,52 +60,22 @@ export default {
     getCode() {
       if (this.validatePhone()) {
         this.validateBtn();
-        // 发送网络请求
-        axios
-          .post("/api/posts/sms_send", {
-            tpl_id: "183730",
-            key: "78b924d20318d1b59e08ee3a8601ea78",
-            phone: this.phone
-          })
-          .then(res => {
-            // console.log(res);
-          })
-          .catch(err => {
-            console.log(err);
-          });
       }
     },
     // 点击登录
     btnLogin() {
       // 清空错误
       this.errors = {};
-      // 发送请求
-      axios
-        .post("/api/posts/sms_back", {
-          phone: this.phone,
-          code: this.code
-        })
-        .then(res => {
-          // 118357默认验证码
-          console.log(res);
-          if (res.msg === "验证成功") {
-            // 存用户id
-            localStorage.setItem("ele_login", res.user._id);
-            this.$notify({
-              type: "success",
-              message: "登录成功，正在跳转至首页",
-              duration: 2000,
-              onClose: () => {
-                this.$router.push("/").catch(err => {});
-              }
-            });
-          }
-        })
-        .catch(err => {
-          this.errors = {
-            code: err.response.data.msg
-          };
-        });
+      // 存用户id
+      localStorage.setItem("ele_login", "5cd437fef7a6970017c415fe");
+      this.$notify({
+        type: "success",
+        message: "登录成功，正在跳转至首页",
+        duration: 2000,
+        onClose: () => {
+          this.$router.push("/").catch(err => {});
+        }
+      });
     },
     // 验证手机号
     validatePhone() {
@@ -136,6 +106,14 @@ export default {
           clearInterval(timer);
           this.btnTitle = "获取验证码";
           this.disabled = false;
+        }
+
+        if (time === 59) {
+          this.$notify({
+            type: "success",
+            message: "验证码发送成功,请注意查收",
+            duration: 3000
+          });
         }
       }, 1000);
     }

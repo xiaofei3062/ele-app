@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ open: isSort || isScreen }" @click.self="hideView" style="overflow: auto">
+  <div :class="{ open: isSort || isScreen }" @click.self="hideView">
     <!-- 导航 -->
     <div class="filter_wrap" v-if="Object.keys(filterData).length !== 0">
       <div class="filter">
@@ -185,7 +185,6 @@ export default {
 <style scoped>
 .filter_wrap {
   position: sticky;
-  z-index: 10;
   top: 54px;
   right: 0;
   left: 0;
@@ -230,6 +229,7 @@ export default {
   z-index: 3;
   top: 0;
   left: 0;
+  overflow: auto;
   width: 100%;
   height: 100%;
   transition: all 0.3s ease-in-out;

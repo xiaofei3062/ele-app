@@ -28,7 +28,14 @@
           </li>
         </ul>
       </section>
-      <van-button :disabled="timerOut" class="pay-btn" round size="large" type="primary">
+      <van-button
+        :disabled="timerOut"
+        @click="pay"
+        class="pay-btn"
+        round
+        size="large"
+        type="primary"
+      >
         确认支付
       </van-button>
     </div>
@@ -42,7 +49,7 @@ export default {
   name: "Pay",
   data() {
     return {
-      countDown: "00:14:59",
+      countDown: "00:15:00",
       orderInfo: {},
       totalPrice: 0,
       // 按钮禁用
@@ -63,12 +70,14 @@ export default {
           // 没有配送费直接显示总价
           this.totalPrice = this.orderInfo.totalPrice;
         }
+      } else {
+        this.$router.replace("/shop/goods");
       }
     },
     // 倒计时
     countTimeDown() {
-      let minute = 14;
-      let second = 59;
+      let minute = 15;
+      let second = 0;
       let timer = setInterval(() => {
         second--;
         if (second < 0) {
@@ -91,6 +100,53 @@ export default {
           clearInterval(timer);
         }
       }, 1000);
+    },
+    // 点击支付
+    pay() {
+      const data = {
+        body: "米修在线",
+        out_trade_no: new Date().getTime().toString(),
+        total_fee: 1
+      };
+      alert("进入到pay方法中");
+      // 请求 http://www.thenewstep.cn/wxzf/example/jsapi.php
+      fetch("http://127.0.0.1/example/jsapi.php", {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-type": "application/json"
+        },
+        body: JSON.stringify(data)
+      })
+        .then(res => res.json())
+        .then(data => {
+          this.onBridgeReady(data);
+        })
+        .catch(err => err);
+    },
+    onBridgeReady(data) {
+      WeixinJSBridge.invoke("getBrandWCPayRequest", data, res => {
+        if (res.err_msg === "get_brand_wcpay_request:ok") {
+          // 使用以上方式判断前端返回,微信团队郑重提示：
+          //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+          alert("支付成功");
+          // 生成订单
+          this.addOrder();
+        }
+      });
+    },
+    addOrder() {
+      let orderlist = {
+        orderInfo: this.orderInfo,
+        userInfo: this.userInfo,
+        totalPrice: this.totalPrice,
+        remarkInfo: this.remarkInfo
+      };
+      // console.log(orderlist);
+      axios.post(`/api/user/add_order/${localStorage.ele_login}`, orderlist).then(res => {
+        console.log(res.data);
+        this.$router.replace("/order");
+      });
     }
   },
   activated() {
