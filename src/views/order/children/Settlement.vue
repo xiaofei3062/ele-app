@@ -36,7 +36,7 @@
       <div class="checkout-section">
         <van-cell-group>
           <van-cell
-            :value="remarkInfo.subHead || '未选择'"
+            :value="remarkInfo.tableware || '未选择'"
             @click="showMenu = true"
             is-link
             title="餐具份数"
@@ -84,6 +84,7 @@ import MyHeader from "@/components/MyHeader";
 import Delivery from "./Delivery";
 import CartGroup from "./CartGroup";
 import Remark from "./Remark";
+import { orderMixins } from "@/mixins";
 
 export default {
   name: "Settlement",
@@ -93,7 +94,7 @@ export default {
       totalPrice: 0,
       // 订单对象
       remarkInfo: {
-        subHead: "",
+        tableware: "",
         remark: ""
       },
       isAddress: true,
@@ -113,51 +114,28 @@ export default {
   computed: {
     userInfo() {
       const address = this.$route.query.address;
-      if (address) {
-        // 这边首先将字符串解码,在转换成对象
-        return JSON.parse(decodeURIComponent(address));
-      } else {
-        return {};
-      }
+      // 这边首先将字符串解码,在转换成对象
+      if (address) return JSON.parse(decodeURIComponent(address));
+      return {};
     }
   },
+  mixins: [orderMixins],
   methods: {
-    // 获取缓存中的orderInfo
-    setOrderInfo() {
-      const orderInfo = sessionStorage.getItem("orderInfo");
-      if (orderInfo) {
-        // 给orderInfo更新数据
-        this.orderInfo = JSON.parse(orderInfo);
-        // 获取总价 总价加上配送费
-        if (this.orderInfo.shopInfo.float_delivery_fee) {
-          this.totalPrice = this.orderInfo.totalPrice + this.orderInfo.shopInfo.float_delivery_fee;
-        } else {
-          // 没有配送费直接显示总价
-          this.totalPrice = this.orderInfo.totalPrice;
-        }
-      } else {
-        this.$router.replace("/shop/goods");
-      }
-    },
     // 取消菜单
     onCancel() {
       this.showMenu = false;
     },
     // 选择菜单
     onSelect(item) {
-      this.remarkInfo.subHead = item.name;
+      this.remarkInfo.tableware = item.name;
       this.showMenu = false;
     },
     // 提交订单
     onSubmit() {
       const address = this.$route.query.address;
-      if (!address) {
-        this.$toast("请选择收货地址");
-      } else if (!this.remarkInfo.subHead) {
-        this.$toast("请选择餐具份数");
-      } else {
-        this.$router.push("/pay");
-      }
+      if (!address) return this.$toast("请选择收货地址");
+      if (!this.remarkInfo.tableware) return this.$toast("请选择餐具份数");
+      this.$router.push("/pay");
     }
   },
   activated() {

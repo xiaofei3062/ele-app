@@ -1,8 +1,10 @@
-const MyAddress = () => import("@/views/mine/children/MyAddress");
-const AddAddress = () => import("@/views/mine/children/AddAddress");
-const Settlement = () => import("@/views/order/children/Settlement");
-const Search = () => import("@/views/search/Search");
-const Pay = () => import("@/views/order/children/Pay");
+const MyAddress = () => import(/* webpackChunkName: 'single' */ "@/views/mine/children/MyAddress");
+const AddAddress = () =>
+  import(/* webpackChunkName: 'single' */ "@/views/mine/children/AddAddress");
+const Settlement = () =>
+  import(/* webpackChunkName: 'single' */ "@/views/order/children/Settlement");
+const Search = () => import(/* webpackChunkName: 'single' */ "@/views/search/Search");
+const Pay = () => import(/* webpackChunkName: 'single' */ "@/views/order/children/Pay");
 
 export const SingleRouter = [
   { path: "/myAddress", name: "myAddress", component: MyAddress },

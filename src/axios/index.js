@@ -11,7 +11,7 @@ const _axios = axios.create(config);
 // 请求拦截
 _axios.interceptors.request.use(
   req => {
-    if (req.method === "POST" || req.method === "post") {
+    if (req.method === "post") {
       req.data = qs.stringify(req.data);
     }
     Toast.loading({

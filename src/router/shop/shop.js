@@ -1,10 +1,10 @@
 // 一级路由
-const Shop = () => import("@/views/shops/Shop");
+const Shop = () => import(/* webpackChunkName: 'shop' */ "@/views/shops/Shop");
 
 // 二级路由
-const Goods = () => import("@/views/shops/children/Goods");
-const Comments = () => import("@/views/shops/children/Comments");
-const Seller = () => import("@/views/shops/children/Seller");
+const Goods = () => import(/* webpackChunkName: 'shop' */ "@/views/shops/children/Goods");
+const Comments = () => import(/* webpackChunkName: 'shop' */ "@/views/shops/children/Comments");
+const Seller = () => import(/* webpackChunkName: 'shop' */ "@/views/shops/children/Seller");
 
 export const ShopRouter = {
   path: "/shop",

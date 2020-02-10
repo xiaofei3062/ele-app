@@ -118,12 +118,14 @@ export default {
     },
     // 去结算
     handleSettlement() {
-      const orderInfo = {
-        shopInfo: this.shopInfo.rst,
-        selectFoods: this.selectFoods,
+      const orderList = {
+        orderInfo: {
+          shopInfo: this.shopInfo.rst,
+          selectFoods: this.selectFoods
+        },
         totalPrice: this.totalPrice
       };
-      sessionStorage.setItem("orderInfo", JSON.stringify(orderInfo));
+      sessionStorage.setItem("orderList", JSON.stringify(orderList));
       this.$router.push({
         path: "/settlement"
       });
@@ -147,7 +149,7 @@ export default {
   },
   activated() {
     // 每次回来清空缓存
-    sessionStorage.removeItem("orderInfo");
+    sessionStorage.removeItem("orderList");
   }
 };
 </script>

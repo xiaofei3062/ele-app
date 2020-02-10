@@ -49,7 +49,7 @@ export default {
   methods: {
     // 跳转到登录页
     handleLogin() {
-      this.$router.push("/login");
+      this.$router.replace("/login");
     },
     // 退出登录
     handleOut() {
@@ -64,7 +64,7 @@ export default {
             message: "退出登录成功",
             duration: 2000,
             onClose: () => {
-              this.$router.push("/login");
+              this.$router.replace("/login");
             }
           });
         })

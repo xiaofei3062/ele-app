@@ -75,3 +75,24 @@ export const mapMixins = {
     }
   }
 };
+
+// 订单混入
+export const orderMixins = {
+  methods: {
+    // 获取缓存中的orderInfo
+    setOrderInfo() {
+      const orderList = sessionStorage.getItem("orderList");
+      if (!orderList) return this.$router.replace("/shop/goods");
+      const order = JSON.parse(orderList);
+      // 给orderInfo更新数据
+      this.orderInfo = order.orderInfo;
+      // 获取总价 总价加上配送费
+      if (this.orderInfo.shopInfo.float_delivery_fee) {
+        this.totalPrice = order.totalPrice + this.orderInfo.shopInfo.float_delivery_fee;
+      } else {
+        // 没有配送费直接显示总价
+        this.totalPrice = order.totalPrice;
+      }
+    }
+  }
+};

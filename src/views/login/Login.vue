@@ -73,7 +73,7 @@ export default {
         message: "登录成功，正在跳转至首页",
         duration: 2000,
         onClose: () => {
-          this.$router.push("/").catch(err => {});
+          this.$router.replace("/");
         }
       });
     },
