@@ -35,6 +35,7 @@
 
 <script>
 import MyHeader from "@/components/MyHeader";
+import { Toast } from "vant";
 
 export default {
   name: "MyAddress",
@@ -76,7 +77,7 @@ export default {
             .delete(`/api/user/address/${localStorage.ele_login}/${address._id}`)
             .then(res => {
               console.log(res);
-              this.$toast({
+              Toast({
                 message: "删除地址成功",
                 onClose: () => {
                   this.addressList.splice(index, 1);

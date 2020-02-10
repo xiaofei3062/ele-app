@@ -118,6 +118,7 @@
 <script>
 import MyHeader from "@/components/MyHeader";
 import AddressSearch from "@/components/orders/AddressSearch";
+import { Toast } from "vant";
 
 export default {
   name: "AddAddress",
@@ -163,19 +164,19 @@ export default {
 
       // 表单验证
       if (!this.addressInfo.name) {
-        this.$toast("请输入联系人");
+        Toast("请输入联系人");
       } else if (!this.addressInfo.sex) {
-        this.$toast("请选择您的身份");
+        Toast("请选择您的身份");
       } else if (!this.addressInfo.phone) {
-        this.$toast("请输入手机号");
+        Toast("请输入手机号");
       } else if (!reg.test(this.addressInfo.phone)) {
-        this.$toast("请输入正确的手机号");
+        Toast("请输入正确的手机号");
       } else if (!this.addressInfo.address) {
-        this.$toast("请选择地址");
+        Toast("请选择地址");
       } else if (!this.addressInfo.bottom) {
-        this.$toast("请输入门牌号");
+        Toast("请输入门牌号");
       } else if (!this.addressInfo.tag) {
-        this.$toast("请选择标签");
+        Toast("请选择标签");
       } else {
         // isDelete为真调用编辑地址,反之调用保存地址
         this.isDelete ? this.editAddress(this.addressInfo) : this.saveAddress(this.addressInfo);
@@ -225,7 +226,7 @@ export default {
         .post(`/api/user/edit_address/${localStorage.ele_login}/${address._id}`, address)
         .then(res => {
           // console.log(res);
-          this.$toast({
+          Toast({
             message: "修改地址成功",
             onClose: () => {
               this.$router.replace("/myAddress");
@@ -249,7 +250,7 @@ export default {
             .then(res => {
               this.clearAddress();
               this.isDelete = false;
-              this.$toast({
+              Toast({
                 message: "删除地址成功",
                 onClose: () => {
                   this.$router.replace("/myAddress");

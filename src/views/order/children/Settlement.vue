@@ -85,6 +85,7 @@ import Delivery from "./Delivery";
 import CartGroup from "./CartGroup";
 import Remark from "./Remark";
 import { orderMixins } from "@/mixins";
+import { Toast } from "vant";
 
 export default {
   name: "Settlement",
@@ -133,8 +134,8 @@ export default {
     // 提交订单
     onSubmit() {
       const address = this.$route.query.address;
-      if (!address) return this.$toast("请选择收货地址");
-      if (!this.remarkInfo.tableware) return this.$toast("请选择餐具份数");
+      if (!address) return Toast("请选择收货地址");
+      if (!this.remarkInfo.tableware) return Toast("请选择餐具份数");
       this.$router.push("/pay");
     }
   },

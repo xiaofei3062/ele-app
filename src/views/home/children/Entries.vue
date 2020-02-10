@@ -14,6 +14,8 @@
 </template>
 
 <script>
+import { Toast } from "vant";
+
 export default {
   name: "Entries",
   props: {
@@ -26,7 +28,7 @@ export default {
   },
   methods: {
     foodClick(item) {
-      this.$toast(item.name);
+      Toast(item.name);
     }
   }
 };
