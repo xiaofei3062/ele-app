@@ -25,7 +25,7 @@ module.exports = {
       // 配置cdn依赖
       config.set("externals", {
         vue: "Vue",
-        "mint-ui": "MINT",
+        "better-scroll": "BScroll",
         vant: "vant"
       });
 

@@ -1,4 +1,4 @@
-const Login = () => import(/* webpackChunkName: 'login' */ "@/views/login/Login");
+import Login from "@/views/login/Login";
 
 export const LoginRouter = {
   path: "/login",
