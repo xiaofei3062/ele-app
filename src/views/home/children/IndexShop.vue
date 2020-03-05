@@ -91,6 +91,7 @@ export default {
   font-size: 14px;
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
   justify-content: space-between;
   padding-left: 10px;
 }
