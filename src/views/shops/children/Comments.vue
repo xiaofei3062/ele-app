@@ -123,7 +123,7 @@ export default {
   overflow-x: hidden;
   overflow-y: auto;
   height: calc(100vh - 44px);
-  border-top: 1px solid #aaaaaa;
+  border-top: 1px solid #cccccc;
 }
 
 .rating-wrap {

@@ -43,8 +43,8 @@ export default {
   name: "Login",
   data() {
     return {
-      phone: "17610351502",
-      code: "123456",
+      phone: "",
+      code: "",
       errors: {},
       btnTitle: "获取验证码",
       disabled: false
@@ -57,6 +57,7 @@ export default {
   },
   components: { InputGroup },
   methods: {
+    // 获取验证码
     getCode() {
       if (this.validatePhone()) {
         this.validateBtn();
@@ -111,11 +112,18 @@ export default {
         if (time === 59) {
           this.$notify({
             type: "success",
-            message: "验证码发送成功,请注意查收",
+            message: "验证码获取成功,请点击登录",
             duration: 3000
           });
+          this.code = this.randomCode();
         }
       }, 1000);
+    },
+    // 000000-999999随机验证码
+    randomCode() {
+      return Math.floor(Math.random() * 1000000)
+        .toString()
+        .padStart(6, "0");
     }
   }
 };

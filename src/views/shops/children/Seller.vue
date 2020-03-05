@@ -52,7 +52,7 @@ export default {
   overflow-y: auto;
   width: 100%;
   height: calc(100vh - 44px);
-  border-top: 1px solid #aaaaaa;
+  border-top: 1px solid #cccccc;
 }
 
 .seller-content {

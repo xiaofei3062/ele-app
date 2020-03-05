@@ -39,7 +39,8 @@
     </div>
 
     <!-- 导航 -->
-    <nav-bar />
+    <nav-bar></nav-bar>
+    <!-- 路由切换 -->
     <keep-alive>
       <router-view />
     </keep-alive>

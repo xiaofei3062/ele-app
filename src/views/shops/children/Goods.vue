@@ -207,6 +207,7 @@ export default {
   position: relative;
   height: calc(100vh - 44px);
   padding-bottom: 60px;
+  border-top: 1px solid #cccccc;
 }
 
 .recommend {
