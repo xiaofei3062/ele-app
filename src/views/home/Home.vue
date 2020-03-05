@@ -209,10 +209,17 @@ export default {
 .search_wrap .shop_search {
   line-height: 34px;
   height: 34px;
-  text-align: center;
   color: #aaaaaa;
   border-radius: 4px;
   background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search_wrap .shop_search i {
+  font-size: 16px;
+  margin-right: 3px;
 }
 
 .search_wrap {

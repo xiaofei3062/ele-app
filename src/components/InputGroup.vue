@@ -46,6 +46,7 @@ export default {
 .input_group {
   display: flex;
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
   padding: 10px;
   border: 1px solid #cccccc;
@@ -57,12 +58,16 @@ export default {
   height: 100%;
   border: none;
   outline: none;
+  font-size: 14px;
+  display: block;
 }
 
 .input_group button {
   border: none;
   outline: none;
   background: #ffffff;
+  font-size: 14px;
+  display: block;
 }
 
 .input_group button[disabled] {

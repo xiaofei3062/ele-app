@@ -63,7 +63,7 @@ export default {
   font-size: 14px;
   padding: 4vw 0;
   color: #666666;
-  border-bottom: 0.133333vw solid #eeeeee;
+  border-bottom: 1px solid #eeeeee;
   background: #ffffff;
 }
 
@@ -90,11 +90,9 @@ export default {
 .index_main {
   font-size: 14px;
   display: flex;
-  overflow: hidden;
   flex-direction: column;
-  flex-grow: 1;
   justify-content: space-between;
-  padding-left: 2.666667vw;
+  padding-left: 10px;
 }
 
 .index_shopname {
@@ -102,12 +100,12 @@ export default {
   font-weight: 700;
   display: flex;
   align-items: center;
-  white-space: nowrap;
   color: #333333;
 }
 
 .index_shopname i {
   font-size: 12px;
+  font-style: normal;
   display: inline-block;
   margin-right: 1.333333vw;
   padding: 3px 4px;
