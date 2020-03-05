@@ -1,6 +1,6 @@
 <template>
   <div class="entries">
-    <van-swipe :autoplay="0" style="height: 100%;">
+    <van-swipe :autoplay="0" style="height: 100%;" :show-indicators="false">
       <van-swipe-item :key="i" class="entry_wrap" v-for="(entry, i) in entries">
         <div :key="index" @click="foodClick(item)" class="foodentry" v-for="(item, index) in entry">
           <div class="img_wrap">
@@ -14,8 +14,6 @@
 </template>
 
 <script>
-import { Toast } from "vant";
-
 export default {
   name: "Entries",
   props: {
@@ -28,7 +26,7 @@ export default {
   },
   methods: {
     foodClick(item) {
-      Toast(item.name);
+      this.$toast(item.name);
     }
   }
 };
@@ -37,7 +35,7 @@ export default {
 <style scoped>
 .entries {
   overflow: hidden;
-  height: 180px;
+  height: 160px;
   text-align: center;
   background: #ffffff;
 }

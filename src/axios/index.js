@@ -2,7 +2,8 @@ import axios from "axios";
 import qs from "qs";
 
 let config = {
-  baseURL: "http://127.0.0.1:5000"
+  baseURL: "http://127.0.0.1:5000",
+  timeout: 10000
 };
 
 const _axios = axios.create(config);
