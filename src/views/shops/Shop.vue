@@ -66,9 +66,14 @@ export default {
   },
   methods: {
     setShopInfo() {
+      this.$toast.loading({
+        forbidClick: true,
+        message: "加载中..."
+      });
       axios
         .get("/api/profile/batch_shop")
         .then(res => {
+          this.$toast.clear();
           // 动态添加count字段
           res.recommend.forEach(recommend => {
             recommend.items.forEach(item => {

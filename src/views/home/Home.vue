@@ -25,14 +25,7 @@
     <!-- 导航 -->
     <filter-view :filter-data="filterData" @searchFixed="searchFixed" @update="update" />
     <!-- 商家信息 -->
-    <mt-loadmore
-      :auto-fill="false"
-      :bottom-all-loaded="allLoaded"
-      :bottom-method="loadMore"
-      :bottomPullText="bottomPullText"
-      :top-method="loadData"
-      ref="loadmore"
-    >
+    <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="loadMore">
       <div class="shoplist">
         <IndexShop
           :key="index"
@@ -40,7 +33,7 @@
           v-for="(item, index) in restaurants"
         />
       </div>
-    </mt-loadmore>
+    </van-list>
   </div>
 </template>
 
@@ -60,11 +53,11 @@ export default {
       filterData: {},
       showFilter: false,
       page: 1,
-      size: 10,
+      size: 5,
       restaurants: [], //存放商家数据
-      allLoaded: false,
-      bottomPullText: "上拉加载更多",
-      sortData: {} // 排序内容
+      sortData: {}, // 排序内容
+      loading: false, // 是否加载
+      finished: false // 是否加载完成
     };
   },
   computed: {
@@ -83,10 +76,15 @@ export default {
       this.$router.push({ path: "/address", query: { city: this.city } });
     },
     getData() {
+      this.$toast.loading({
+        forbidClick: true,
+        message: "加载中..."
+      });
       // 商品列表数据
       axios
         .get("/api/profile/shopping")
         .then(res => {
+          this.$toast.clear();
           this.swiperList = res.swipeImgs;
           this.entries = res.entries;
         })
@@ -103,9 +101,6 @@ export default {
         .catch(err => {
           console.log(err);
         });
-
-      // 获取商家信息
-      this.loadData();
     },
     searchFixed(bol) {
       this.showFilter = bol;
@@ -114,50 +109,42 @@ export default {
     update(condition) {
       this.sortData = condition;
       this.loadData();
+      this.finished = false;
     },
-    // 获取商家信息,下拉刷新
+    // 获取商家信息
     loadData() {
       this.page = 1;
-      this.allLoaded = false;
-      this.bottomPullText = "上拉加载更多";
       axios
         .post(`/api/profile/restaurants/${this.page}/${this.size}`, this.sortData)
         .then(res => {
           this.restaurants = res;
-          // 数据加载完毕隐藏
-          this.$refs.loadmore.onTopLoaded();
         })
-        .catch(err => {
-          console.log(err);
-        });
+        .catch(err => err);
     },
     // 上拉加载
     loadMore() {
-      if (!this.allLoaded) {
-        this.page++;
-        axios
-          .post(`/api/profile/restaurants/${this.page}/${this.size}`, this.sortData)
-          .then(res => {
-            // 加载完之后重新渲染
-            this.$refs.loadmore.onBottomLoaded();
+      this.page += 1;
+      axios
+        .post(`/api/profile/restaurants/${this.page}/${this.size}`, this.sortData)
+        .then(res => {
+          console.log(res);
+          // 加载完之后重新渲染
+          setTimeout(() => {
+            this.loading = false;
             if (res.length > 0) {
               res.forEach(item => {
                 this.restaurants.push(item);
               });
               if (res < this.size) {
-                this.allLoaded = true;
-                this.bottomPullText = "没有更多了";
+                this.finished = true;
               }
             } else {
               // 数据为空
-              this.allLoaded = true;
-              this.bottomPullText = "没有更多了";
+              this.finished = true;
             }
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      }
+          }, 1000);
+        })
+        .catch(err => err);
     }
   },
   created() {

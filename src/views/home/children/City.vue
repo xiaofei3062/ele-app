@@ -81,10 +81,15 @@ export default {
           });
         });
       } else {
+        this.$toast.loading({
+          forbidClick: true,
+          message: "加载中..."
+        });
         axios
           .get("/api/posts/cities")
           .then(res => {
             // console.log(res);
+            this.$toast.clear();
             this.cityInfo = res;
             // 城市数据一般比较固定所以存到本地
             localStorage.setItem("city_info", JSON.stringify(res));
@@ -132,12 +137,10 @@ export default {
     // 取消清空按钮
     handleBtnClick() {
       if (this.btnMsg === "取消") {
-        this.$router
-          .push({
-            path: "/address",
-            query: { city: this.$route.query.city }
-          })
-          .catch(err => {});
+        this.$router.push({
+          path: "/address",
+          query: { city: this.$route.query.city }
+        });
       } else {
         // 清空数据并且清空输入框内容
         this.searchList = [];

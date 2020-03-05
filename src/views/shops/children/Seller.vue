@@ -24,10 +24,15 @@ export default {
   },
   methods: {
     getData() {
+      this.$toast.loading({
+        forbidClick: true,
+        message: "加载中..."
+      });
       axios
         .get("/api/profile/seller")
         .then(res => {
           // console.log(res);
+          this.$toast.clear();
           this.sellerInfo = res;
         })
         .catch(err => {

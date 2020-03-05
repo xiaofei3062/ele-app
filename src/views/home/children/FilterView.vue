@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ open: isSort || isScreen }" @click.self="hideView">
+  <div :class="{ open: isSort || isScreen }" @click.self="hideView" class="filter-sticky">
     <!-- 导航 -->
     <div class="filter_wrap" v-if="Object.keys(filterData).length !== 0">
       <div class="filter">
@@ -183,6 +183,13 @@ export default {
 </script>
 
 <style scoped>
+.filter-sticky {
+  position: sticky;
+  top: 54px;
+  right: 0;
+  left: 0;
+}
+
 .filter_wrap {
   position: sticky;
   top: 54px;
@@ -232,7 +239,6 @@ export default {
   overflow: auto;
   width: 100%;
   height: 100%;
-  transition: all 0.3s ease-in-out;
   background-color: rgba(0, 0, 0, 0.5);
 }
 

@@ -85,10 +85,15 @@ export default {
   },
   methods: {
     getData() {
+      this.$toast.loading({
+        forbidClick: true,
+        message: "加载中..."
+      });
       axios
         .get("/api/profile/comments")
         .then(res => {
           // console.log(res);
+          this.$toast.clear();
           this.evaluation = res;
         })
         .catch(err => {

@@ -77,11 +77,16 @@ export default {
       this.$router.push("/myAddress");
     },
     getData() {
+      this.$toast.loading({
+        forbidClick: true,
+        message: "加载中..."
+      });
       const userId = localStorage.getItem("ele_login");
       axios
         .get("/api/user/user_info/" + userId)
         .then(res => {
           // console.log(res);
+          this.$toast.clear();
           this.userInfo = res;
         })
         .catch(err => {

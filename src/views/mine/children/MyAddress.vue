@@ -53,9 +53,17 @@ export default {
     },
     // 请求地址数据
     getAddressData() {
-      axios.get("/api/user/user_info/" + localStorage.getItem("ele_login")).then(res => {
-        this.addressList = res.myAddress;
+      this.$toast.loading({
+        forbidClick: true,
+        message: "加载中..."
       });
+      axios
+        .get("/api/user/user_info/" + localStorage.getItem("ele_login"))
+        .then(res => {
+          this.$toast.clear();
+          this.addressList = res.myAddress;
+        })
+        .catch(err => err);
     },
     // 编辑地址
     editAddress(address) {
