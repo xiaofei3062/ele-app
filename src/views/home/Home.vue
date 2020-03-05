@@ -233,6 +233,7 @@ export default {
   padding-bottom: 10px;
   color: #333333;
   background: #ffffff;
+  padding-top: 10px;
 }
 
 .shoplist-title:before,
