@@ -35,6 +35,12 @@ export default {
   watch: {
     search_address(val) {
       this.searchPlace(val);
+    },
+    isSearch(boolean) {
+      if (!boolean) {
+        this.search_address = "";
+        this.areaList = [];
+      }
     }
   },
   props: {

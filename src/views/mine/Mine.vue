@@ -62,15 +62,14 @@ export default {
           localStorage.removeItem("ele_login");
           this.$notify({
             message: "退出登录成功",
+            type: "success",
             duration: 2000,
             onClose: () => {
               this.$router.replace("/login");
             }
           });
         })
-        .catch(() => {
-          return false;
-        });
+        .catch(err => err);
     },
     // 跳转至我的地址
     handleAddress() {
@@ -89,9 +88,7 @@ export default {
           this.$toast.clear();
           this.userInfo = res;
         })
-        .catch(err => {
-          console.log(err);
-        });
+        .catch(err => err);
     }
   }
 };

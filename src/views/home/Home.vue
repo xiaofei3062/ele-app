@@ -88,9 +88,7 @@ export default {
           this.swiperList = res.swipeImgs;
           this.entries = res.entries;
         })
-        .catch(err => {
-          console.log(err);
-        });
+        .catch(err => err);
 
       // 过滤筛选数据
       axios
@@ -98,9 +96,7 @@ export default {
         .then(res => {
           this.filterData = res;
         })
-        .catch(err => {
-          console.log(err);
-        });
+        .catch(err => err);
     },
     searchFixed(bol) {
       this.showFilter = bol;
@@ -114,9 +110,14 @@ export default {
     // 获取商家信息
     loadData() {
       this.page = 1;
+      this.$toast.loading({
+        forbidClick: true,
+        message: "加载中..."
+      });
       axios
         .post(`/api/profile/restaurants/${this.page}/${this.size}`, this.sortData)
         .then(res => {
+          this.$toast.clear();
           this.restaurants = res;
         })
         .catch(err => err);

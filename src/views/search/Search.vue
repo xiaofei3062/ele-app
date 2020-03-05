@@ -28,13 +28,15 @@
     <div class="container" v-if="showShop">
       <!-- 导航 -->
       <filter-view :filter-data="filterData" @update="update" />
-      <div :infinite-scroll-disabled="loading" class="shoplist" v-infinite-scroll="loadMore">
-        <IndexShop
-          :key="index"
-          :restaurant="item.restaurant"
-          v-for="(item, index) in restaurants"
-        />
-      </div>
+      <van-list :finished="finished" @load="loadMore" finished-text="没有更多了" v-model="loading">
+        <div class="shoplist">
+          <IndexShop
+            :key="index"
+            :restaurant="item.restaurant"
+            v-for="(item, index) in restaurants"
+          />
+        </div>
+      </van-list>
     </div>
   </div>
 </template>
@@ -57,8 +59,9 @@ export default {
       filterData: {},
       restaurants: [],
       page: 0,
-      size: 7,
+      size: 5,
       loading: false,
+      finished: false,
       sortData: {}
     };
   },
@@ -74,25 +77,22 @@ export default {
     // 搜素关键词
     keyWordChange() {
       this.showShop = false;
-      if (!this.keyWord) {
-        return false;
-      } else {
-        axios(`/api/profile/typeahead/${this.keyWord}`)
-          .then(res => {
-            // 数组有数据才赋值
-            if (res.restaurants.length > 0 || res.words.length > 0) {
-              this.result = res;
-            } else {
-              // 否则显示暂无数据,并清空result
-              this.empty = true;
-              this.result = {};
-            }
-          })
-          .catch(err => {
-            console.log(err);
+      if (!this.keyWord) return;
+      axios(`/api/profile/typeahead/${this.keyWord}`)
+        .then(res => {
+          // 数组有数据才赋值
+          if (res.restaurants.length > 0 || res.words.length > 0) {
+            this.result = res;
+          } else {
+            // 否则显示暂无数据,并清空result
+            this.empty = true;
             this.result = {};
-          });
-      }
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          this.result = {};
+        });
     },
     // 点击
     shopItemClick() {
@@ -101,52 +101,59 @@ export default {
       this.restaurants = [];
       this.getFilterData();
     },
+    // 获取搜索的数据
     getFilterData() {
       axios
         .get("/api/profile/filter")
         .then(res => {
           this.filterData = res;
         })
-        .catch(err => {
-          console.log(err);
-        });
+        .catch(err => err);
     },
     // 排序更新内容
     update(condition) {
       this.sortData = condition;
       this.loadData();
     },
-    // 加载更多
+    // 上拉加载
     loadMore() {
-      this.page++;
-      if (this.loading === true) {
-        return false;
-      } else {
-        axios
-          .post(`/api/profile/restaurants/${this.page}/${this.size}`, this.sortData)
-          .then(res => {
-            if (res.length > 0) {
-              this.restaurants.push(...res);
-            } else {
-              this.loading = true;
-            }
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      }
-    },
-    // 获取商家信息,下拉刷新
-    loadData() {
-      this.page = 1;
+      this.page += 1;
       axios
         .post(`/api/profile/restaurants/${this.page}/${this.size}`, this.sortData)
         .then(res => {
+          console.log(res);
+          // 加载完之后重新渲染
+          setTimeout(() => {
+            this.loading = false;
+            if (res.length > 0) {
+              res.forEach(item => {
+                this.restaurants.push(item);
+              });
+              if (res < this.size) {
+                this.finished = true;
+              }
+            } else {
+              // 数据为空
+              this.finished = true;
+            }
+          }, 1000);
+        })
+        .catch(err => err);
+    },
+    // 获取商家信息
+    loadData() {
+      this.page = 1;
+      this.$toast.loading({
+        forbidClick: true,
+        message: "加载中..."
+      });
+      axios
+        .post(`/api/profile/restaurants/${this.page}/${this.size}`, this.sortData)
+        .then(res => {
+          this.$toast.clear();
           this.restaurants = res;
         })
-        .catch(err => {
-          console.log(err);
-        });
+        .catch(err => err);
     }
   }
 };

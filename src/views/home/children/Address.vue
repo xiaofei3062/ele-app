@@ -70,13 +70,9 @@ export default {
     // 选择地址
     selectAddress(item) {
       // 设置地址
-      if (item) {
-        this.$store.dispatch("setAddress", item.district + item.address);
-      } else {
-        this.$store.dispatch("setAddress", this.address);
-      }
+      this.$store.dispatch("setAddress", item.district + item.address + item.name);
       // 跳转home
-      this.$router.push("/home");
+      this.$router.replace("/home");
     }
   }
 };
@@ -135,7 +131,7 @@ export default {
 
 .area li h4 {
   font-weight: bold;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   color: #333333;
 }
 </style>
