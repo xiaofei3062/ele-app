@@ -1,14 +1,15 @@
 <template>
   <div class="cart-control">
-    <span @click.stop="reduceCount" v-if="food.count > 0">
-      <van-icon class="cart-control-item" name="clear" />
-    </span>
+    <van-icon
+      @click.stop="reduceCount"
+      class="cart-control-item"
+      name="clear"
+      v-if="food.count > 0"
+    />
     <span class="cart-control-price" v-if="food.count > 0">
       {{ food.count }}
     </span>
-    <span @click.stop="addCount">
-      <van-icon class="cart-control-item" name="add" />
-    </span>
+    <van-icon @click.stop="addCount" class="cart-control-item" name="add" />
   </div>
 </template>
 
@@ -44,12 +45,10 @@ export default {
 
 .cart-control .cart-control-item {
   font-size: 20px;
-  display: inline-block;
 }
 
 .cart-control .cart-control-price {
   font-size: 16px;
-  display: inline-block;
   margin: 0 5px;
 }
 </style>

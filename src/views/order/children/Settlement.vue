@@ -148,9 +148,10 @@ export default {
 
 <style scoped>
 .settlement {
+  overflow: hidden;
   box-sizing: border-box;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   padding-top: 54px;
 }
 

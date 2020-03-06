@@ -4,14 +4,14 @@ module.exports = {
     "postcss-preset-env": {},
     "postcss-pxtorem": {
       rootValue: 37.5,
-      unitPrecision: 5,
+      unitPrecision: 6,
       propList: ["*"],
       selectorBlackList: [".ignore", ".hairlines"],
       replace: true,
       mediaQuery: true,
       minPixelValue: 1
     },
-    "cssnano": {
+    cssnano: {
       "cssnano-preset-advanced": {
         zindex: false,
         autoprefixer: false

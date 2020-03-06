@@ -159,12 +159,12 @@ export default {
 
 .move-enter-active,
 .move-leave-active {
-  transition: all 0.25s ease-in;
-  transform: translate(0, -500px);
+  transition: all 0.3s;
+  opacity: 1;
 }
 
 .move-enter,
 .move-leave-to {
-  transform: translate(0, 500px);
+  opacity: 0;
 }
 </style>

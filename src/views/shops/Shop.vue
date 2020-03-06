@@ -6,7 +6,7 @@
         <img :src="shopInfo.rst.scheme" alt="" />
       </div>
       <div @click="$router.go(-1)" class="nav_back">
-        <i class="fa fa-chevron-left" />
+        <i class="fa fa-chevron-left"></i>
         <span>返回</span>
       </div>
       <div class="shop_image">
@@ -126,17 +126,18 @@ export default {
   align-items: center;
   width: 100%;
   color: #ffffff;
+  height: 20px;
+  line-height: 20px;
 }
 
 .nav_back i {
   font-size: 16px;
-  display: inline-block;
-  margin-right: 5px;
+  margin-right: 3px;
+  padding-top: 2px;
 }
 
 .nav_back span {
   font-size: 14px;
-  display: inline-block;
 }
 
 .shop_image {
