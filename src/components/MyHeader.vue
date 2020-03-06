@@ -58,4 +58,8 @@ export default {
   background-color: transparent;
   box-shadow: none;
 }
+
+h1 {
+  font-size: 16px;
+}
 </style>

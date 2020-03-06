@@ -119,18 +119,22 @@ export default {
 }
 
 .city_content li {
+  width: 90%;
   padding: 10px;
   border-bottom: 1px solid #eeeeee;
 }
 
 .area_keys {
-  font-size: 12px;
-  line-height: 1.4;
   position: fixed;
-  top: 25%;
-  right: 0;
-  padding: 0 5px;
+  top: 21vh;
+  right: 10px;
+  height: 70vh;
   text-align: center;
   color: #aaaaaa;
+}
+
+.area_keys li {
+  font-size: 14px;
+  line-height: 20px;
 }
 </style>

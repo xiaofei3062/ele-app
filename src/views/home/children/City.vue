@@ -190,10 +190,14 @@ export default {
 .search input {
   display: block;
   height: 32px;
-  margin-left: 8px;
+  margin-left: 6px;
   border: none;
   outline: none;
   background: #eeeeee;
+}
+
+.search i {
+  font-size: 16px;
 }
 
 .search_wrap button {
