@@ -10,7 +10,7 @@
         <i class="fa fa-search" />
         <input placeholder="小区/写字楼/学校等" type="text" v-model="searchValue" />
       </div>
-      <location :address="address" @click="selectAddress" />
+      <location :address="address" />
     </div>
     <div class="area">
       <ul :key="index" class="area_list" v-for="(item, index) in areaList">
@@ -53,14 +53,14 @@ export default {
     // 搜索城市
     searchPlace() {
       const self = this;
-      AMap.plugin("AMap.Autocomplete", function() {
+      AMap.plugin("AMap.Autocomplete", function () {
         // 实例化Autocomplete
         var autoOptions = {
           //city 限定城市，默认全国
           city: self.city
         };
         var autoComplete = new AMap.Autocomplete(autoOptions);
-        autoComplete.search(self.searchValue, function(status, result) {
+        autoComplete.search(self.searchValue, function (status, result) {
           // 搜索成功时，result即是对应的匹配数据
           // console.log(result);
           self.areaList = result.tips;

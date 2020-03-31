@@ -1,7 +1,7 @@
 <template>
   <div class="location">
     <div class="title">当前定位</div>
-    <div @click="$emit('click')" class="des">
+    <div class="des">
       <i class="fa fa-location-arrow" />
       <span>{{ address }}</span>
     </div>
@@ -21,6 +21,11 @@ export default {
 .title {
   font-size: 12px;
   margin: 10px 0;
+}
+
+.des {
+  display: flex;
+  align-items: center;
 }
 
 .des i {

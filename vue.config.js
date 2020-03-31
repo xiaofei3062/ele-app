@@ -1,6 +1,6 @@
 module.exports = {
   productionSourceMap: false,
-  publicPath: "./",
+  publicPath: process.env.NODE_ENV === "production" ? "/ele" : "/",
   // devServer: {
   //   proxy: {
   //     // 配置跨域

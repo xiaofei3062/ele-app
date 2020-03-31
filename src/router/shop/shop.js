@@ -6,10 +6,10 @@ import Seller from "@/views/shops/children/Seller";
 export const ShopRouter = {
   path: "/shop",
   component: Shop,
+  redirect: "/shop/goods",
   children: [
-    { path: "", redirect: "goods" },
-    { path: "goods", name: "goods", component: Goods },
-    { path: "comments", name: "comments", component: Comments },
-    { path: "seller", name: "seller", component: Seller }
+    { path: "/shop/goods", name: "goods", component: Goods },
+    { path: "/shop/comments", name: "comments", component: Comments },
+    { path: "/shop/seller", name: "seller", component: Seller }
   ]
 };
