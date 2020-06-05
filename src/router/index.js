@@ -33,7 +33,7 @@ const routes = [
 
 const router = new VueRouter({
   mode: "history",
-  base: "ele",
+  base: process.env.NODE_ENV === "production" ? "/ele" : "/",
   routes
 });
 

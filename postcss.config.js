@@ -9,7 +9,7 @@ module.exports = {
       selectorBlackList: [".ignore", ".hairlines"],
       replace: true,
       mediaQuery: true,
-      minPixelValue: 1
+      minPixelValue: 2
     },
     cssnano: {
       "cssnano-preset-advanced": {
